@@ -1,0 +1,152 @@
+.footer {
+  background-color: #3b2b24;
+  width: 100%;
+  padding: 20px 0;
+  color: #f2a86f;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.footer-copyright {
+  margin-top: 50px;
+}
+
+.footer-copyright p {
+  margin: 2px 0;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.footer-logo {
+  margin-top: 5px;
+  width: 30%;
+}
+
+.footer-logo img {
+  max-width: 110px;
+  height: auto;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.footer-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.menu-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.menu-col h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  color: #f2a86f;
+}
+
+.menu-col a {
+  color: #f2a86f;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.menu-col a:hover {
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.icone-provisorio {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icone-provisorio:hover {
+  transform: translateY(-3px);
+}
+
+.footer-up {
+  margin-top: 100px;
+}
+
+.btn-up {
+  background-color: transparent;
+  border: 2px solid #5a4b43;
+  border-radius: 50%;
+  color: #5a4b43;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-up:hover {
+  border-color: #f2a86f;
+  color: #f2a86f;
+  background-color: rgba(242, 168, 111, 0.1);
+}
+
+/* CSS Celular */
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .footer-menu {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .menu-col {
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .coluna-direita {
+    margin-top: 0;
+  }
+
+  .footer-social {
+    justify-content: center;
+  }
+}
