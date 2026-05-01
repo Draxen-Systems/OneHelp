@@ -1,7 +1,15 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import logoONG from "../../assets/Logo_semFundo.png";
 
 const Navbar = () => {
+  const [menuAberto, setMenuAberto] = useState(false);
+
+  const toggleMenu = () => {
+    setMenuAberto(!menuAberto);
+  };
+
   return (
     <header className="navbar">
       <div className="nav-container">
@@ -9,12 +17,26 @@ const Navbar = () => {
           <img src={logoONG} alt="Não Achei fio" />
         </div>
 
-        <nav className="nav-links">
-          <a href="#">Nossa ONG</a>
-          <a href="#">Adote</a>
-          <a href="#">Novidades</a>
-          <a href="#">Contato</a>
-          <button className="btn-doacao">Doação</button>
+        <button className="menu-icon" onClick={toggleMenu}>
+          {menuAberto ? "✖" : "☰"}
+        </button>
+
+        <nav className={`nav-links ${menuAberto ? "ativo" : ""}`}>
+          <Link to="/nossa-ong" onClick={toggleMenu}>
+            Nossa ONG
+          </Link>
+          <Link to="/adote" onClick={toggleMenu}>
+            Adote
+          </Link>
+          <Link to="/novidades" onClick={toggleMenu}>
+            Novidades
+          </Link>
+          <Link to="/contato" onClick={toggleMenu}>
+            Contato
+          </Link>
+          <Link to="/donation" className="btn-doacao" onClick={toggleMenu}>
+            Doação
+          </Link>
         </nav>
       </div>
     </header>

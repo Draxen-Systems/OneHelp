@@ -13,6 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav-links {
@@ -36,7 +37,7 @@
   border: 2px solid #f2a86f;
 }
 
-.btn-doacao {
+.nav-links a.btn-doacao {
   background-color: #f2a86f;
   color: #3b2b24;
   border: none;
@@ -48,12 +49,83 @@
   font-size: 15px;
 }
 
-.btn-doacao:hover {
+.nav-links a.btn-doacao:hover {
   background-color: #e58d4a;
   transform: scale(1.05);
   color: #ffffff;
+  border: 2px solid transparent;
 }
 
 .logo-placeholder {
   max-width: 90px;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #f2a86f;
+  cursor: pointer;
+}
+
+/* Responsividade para tablets e celulares */
+@media (max-width: 900px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin-top: 0;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition:
+      max-height 0.4s ease,
+      opacity 0.4s ease,
+      margin-top 0.4s ease;
+  }
+
+  .nav-links.ativo {
+    max-height: 400px;
+    opacity: 1;
+    margin-top: 15px;
+  }
+}
+
+/* Responsividade para celulares */
+@media (min-width: 601px) and (max-width: 900px) {
+  .nav-container {
+    padding: 10px 20px;
+  }
+
+  .nav-links a {
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .nav-links a.btn-doacao {
+    padding: 8px 15px;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Responsividade para celulares */
+@media (max-width: 600px) {
+  .nav-container {
+    padding: 15px;
+  }
+
+  .nav-links a,
+  .nav-links a.btn-doacao {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
 }
