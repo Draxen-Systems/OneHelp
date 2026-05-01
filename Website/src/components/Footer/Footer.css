@@ -122,9 +122,8 @@
   background-color: rgba(242, 168, 111, 0.1);
 }
 
-/* CSS Celular */
-
-@media (max-width: 768px) {
+/* Responsividade pra Celular*/
+@media (max-width: 600px) {
   .footer-container {
     flex-direction: column;
     align-items: center;
@@ -140,6 +139,15 @@
   .menu-col {
     align-items: center !important;
     text-align: center !important;
+    padding-left: 45px;
+  }
+
+  .menu-col ul {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .coluna-direita {
@@ -148,5 +156,26 @@
 
   .footer-social {
     justify-content: center;
+  }
+}
+
+/* Responsividade para Tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+  .footer-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .footer-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .menu-col {
+    width: 45%;
+    margin-bottom: 25px;
   }
 }
