@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import logoONG from "../../assets/Logo_semFundo.png";
 
@@ -22,21 +22,21 @@ const Navbar = () => {
         </button>
 
         <nav className={`nav-links ${menuAberto ? "ativo" : ""}`}>
-          <Link to="/nossa-ong" onClick={toggleMenu}>
+          <NavLink to="/nossa-ong" onClick={toggleMenu}>
             Nossa ONG
-          </Link>
-          <Link to="/adote" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink to="/adote" onClick={toggleMenu}>
             Adote
-          </Link>
-          <Link to="/novidades" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink to="/novidades" onClick={toggleMenu}>
             Novidades
-          </Link>
-          <Link to="/contato" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink to="/contact" onClick={toggleMenu}>
             Contato
-          </Link>
-          <Link to="/donation" className="btn-doacao" onClick={toggleMenu}>
+          </NavLink>
+          <NavLink to="/donation" className="btn-doacao" onClick={toggleMenu}>
             Doação
-          </Link>
+          </NavLink>
         </nav>
       </div>
     </header>
