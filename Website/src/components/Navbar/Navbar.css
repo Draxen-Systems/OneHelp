@@ -33,6 +33,10 @@
   display: inline-block;
 }
 
+.nav-links a.active {
+  border: 2px solid #f2a86f;
+}
+
 .nav-links a:hover {
   border: 2px solid #f2a86f;
 }
@@ -51,9 +55,8 @@
 
 .nav-links a.btn-doacao:hover {
   background-color: #e58d4a;
-  transform: scale(1.05);
   color: #ffffff;
-  border: 2px solid transparent;
+  /* border: 2px solid transparent; */
 }
 
 .logo-placeholder {
@@ -97,7 +100,18 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .nav-links a.active {
+    transform: scale(1.05);
+  }
+
+  .nav-links a:hover {
+    transform: scale(1.05);
+  }
+}
+
 /* Responsividade para celulares */
+
 @media (min-width: 601px) and (max-width: 900px) {
   .nav-container {
     padding: 10px 20px;
@@ -121,7 +135,6 @@
   .nav-container {
     padding: 15px;
   }
-
   .nav-links a,
   .nav-links a.btn-doacao {
     width: 100%;
@@ -129,3 +142,9 @@
     padding: 10px;
   }
 }
+
+/* @media (min-width: 1024px) {
+  .nav-container {
+    height: 80px;
+  }
+} */

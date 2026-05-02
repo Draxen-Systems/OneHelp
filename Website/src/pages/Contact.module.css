@@ -1,0 +1,167 @@
+.containerPrincipal {
+  width: 100%;
+  max-width: 1300px;
+  padding: 40px 20px;
+  margin: auto;
+}
+
+.tituloContainer {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3b2b24;
+}
+
+/* --- Cards --- */
+.cardsWrapper {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+/* Card singular */
+.card {
+  border: 2px solid #3b2b24;
+  border-radius: 20px;
+  padding: 20px;
+  padding-bottom: 60px;
+  width: 100%;
+  max-width: 280px;
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: #fff6f2;
+  color: #3b2b24;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  animation: subirFadeIn 0.5s ease forwards;
+}
+
+@keyframes subirFadeIn {
+  from {
+    opacity: 0.3;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Cores das bordas para cada rede social --- */
+.instagram {
+  border-top: 5px solid #e1306c;
+}
+.whatsapp {
+  border-top: 5px solid #25d366;
+}
+.email {
+  border-top: 5px solid #ea4335;
+}
+.facebook {
+  border-top: 5px solid #1877f2;
+}
+
+.logoIcon {
+  width: 80px;
+  height: 80px;
+  margin: 15px 0;
+}
+
+.cardText {
+  background-color: #f3dacf;
+  padding: 10px;
+  border-radius: 20px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  color: #3b2b24;
+}
+
+/* --- Imagens decorativas dentro dos cards --- */
+.cardImage {
+  position: absolute;
+  bottom: 0;
+  width: 70px;
+  height: auto;
+}
+
+.image1 {
+  right: 5px;
+  bottom: -8px;
+  width: 65px;
+}
+.image2 {
+  left: 5px;
+  bottom: -8px;
+  width: 70px;
+  transform: scaleX(-1);
+}
+.image3 {
+  bottom: 12px;
+  width: 75px;
+}
+.image4 {
+  right: 1px;
+  bottom: 5px;
+  width: 55px;
+  transform: rotate(-25deg);
+}
+
+/* Controle dos botões dos Cards */
+
+.btnCard {
+  text-decoration: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: auto;
+  transition:
+    background 0.3s,
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.btnCard1 {
+  background-color: #e1306c;
+}
+
+.btnCard2 {
+  background-color: #25d366;
+}
+.btnCard3 {
+  background-color: #ea4335;
+}
+.btnCard4 {
+  background-color: #1877f2;
+}
+.btnCard:hover {
+  transform: translateY(-1px);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+}
+/* ---------- */
+
+
+/* Redução do espaçamento para dispositivos móveis */
+@media (max-width: 768px) {
+  .cardsWrapper {
+    padding: 10px;
+    gap: 20px;
+  }
+}
+
+/* Adição de hover para cards para desktop */
+@media (min-width: 1024px) {
+  .card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+}
