@@ -1,0 +1,256 @@
+.homeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0;
+  background-color: #FAF8F5; 
+  font-family: 'Arial', sans-serif;
+}
+
+.bannerSection {
+  width: 100%;
+  max-width: 100vw; 
+  background-color: #EFEBE4;
+  padding: 40px 0 0; 
+  position: relative;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  overflow: hidden; 
+}
+
+.bannerImage {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 0 auto; 
+  border-radius: 10px; 
+}
+
+.cardsWrapper {
+  display: flex;
+  justify-content: center; 
+  width: 100%;
+  padding: 0 20px; 
+}
+
+.cardsSection {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.card {
+  flex: 1;
+  padding: 40px 20px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+.card p {
+  font-size: 1rem;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.cardOrange {
+  background-color: #F0A56C;
+  color: white;
+}
+
+.cardBeige {
+  background-color: #a56a26;
+  color: white; 
+}
+
+.cardBrown {
+  background-color: #3B2418;
+  color: white;
+}
+
+.btnGreen {
+  background-color: #7BB174;
+  color: white;
+  text-decoration: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.2s, background-color 0.2s;
+  display: inline-block;
+}
+
+.btnGreen:hover {
+  background-color: #6a9c63;
+  transform: scale(1.05);
+}
+
+.bazarContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px; 
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: #FAF8F5; 
+}
+
+.bazarContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.bazarTitle {
+  color: #3B2418;
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-align: center; 
+  width: 100%;
+}
+
+.bazarText {
+  color: #3B2418;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  text-align: left; 
+}
+
+.bazarText p {
+  margin-bottom: 12px;
+}
+
+.bazarText strong {
+  font-weight: bold;
+}
+
+.btnDoar {
+  background-color: #7BB174;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  margin-bottom: 0;
+  text-decoration: none;
+  display: flex; 
+  align-items: center; 
+}
+
+.btnDoar:hover {
+  background-color: #6a9c63;
+  transform: scale(1.05);
+}
+
+.silhueta {
+  max-width: 250px;
+  margin-top: auto; 
+}
+
+.bazarImageContainer {
+  flex: 1;
+  border: 1px solid #3B2418; 
+  border-radius: 15px; 
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent; 
+  align-self: center;
+  aspect-ratio: 1 / 1;
+}
+
+.bazarLogo {
+  max-width: 100%;
+  height: auto;
+}
+
+.bazarActionRow {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: flex-start; 
+  gap: 20px; 
+  width: 100%; 
+  margin-top: auto; 
+}
+
+.silhuetaPets {
+  max-width: 250px;
+  height: auto; 
+  display: block; 
+}
+
+@media (max-width: 768px) {
+  
+  /* 1. Ajustes do Banner */
+  .bannerSection {
+    padding: 20px 0 0; /* Diminui o respiro no topo para telas menores */
+  }
+
+  /* 2. Empilhando os Cards */
+  .cardsSection {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%; /* Garante que os cards preencham a tela no celular */
+    max-width: 400px; /* Evita que fiquem gigantes em tablets */
+  }
+
+  /* 3. Empilhando o Bazar (Texto em cima, Imagem embaixo) */
+  .bazarContainer {
+    flex-direction: column;
+    gap: 30px;
+    padding: 30px 20px;
+  }
+
+  /* 4. Centralizando os textos do Bazar no mobile */
+  .bazarTitle {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .bazarText {
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .bazarActionRow {
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .silhuetaPets {
+    max-width: 180px;
+  }
+
+  .bazarImageContainer {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto; 
+  }
+}
