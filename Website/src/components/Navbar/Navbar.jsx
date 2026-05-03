@@ -22,7 +22,7 @@ const Navbar = () => {
         </button>
 
         <nav className={`nav-links ${menuAberto ? "ativo" : ""}`}>
-          <NavLink to="/nossa-ong" onClick={toggleMenu}>
+          <NavLink to="/Ong" onClick={toggleMenu}>
             Nossa ONG
           </NavLink>
           <NavLink to="/adote" onClick={toggleMenu}>

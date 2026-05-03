@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import { Donation } from "./pages/Donation";
-import Contact  from "./pages/Contact";
-
+import Contact from "./pages/Contact";
+import Ong from "./pages/Ong";
 import "./App.css";
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
         <main className="main-content">
           <Routes>
             <Route path="/contact" element={<Contact />} />
+            <Route path="/ong" element={<Ong />} />
             <Route path="/donation" element={<Donation />} />
           </Routes>
         </main>

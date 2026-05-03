@@ -1,0 +1,348 @@
+/* ---- Variáveis ---- */
+:root {
+  --cor-marrom:   #3b2b24;
+  --cor-laranja:  #eb9b64;
+  --cor-vermelho: #b43600;
+}
+
+/* ---- Container ---- */
+.containerPrincipal {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---- Hero ---- */
+.heroSection {
+  min-height: calc(100vh - 153px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+  margin-bottom: 20px;
+}
+
+.ongTitle {
+  text-align: center;
+  margin-bottom: 60px;
+  color: var(--cor-marrom);
+}
+
+.hero {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.heroImage {
+  flex: 4;
+  display: flex;
+  justify-content: center;
+}
+
+.heroImage img {
+  max-width: 100%;
+  height: auto;
+}
+
+.ongDescription {
+  flex: 6;
+  color: var(--cor-marrom);
+  font-size: 18px;
+  line-height: 1.5;
+  background-color: #f3dacf;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 1px 1px 10px #bba399;
+}
+
+.descriptionText {
+  text-align: justify;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.descriptionText:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Voluntários ---- */
+.ongTeam {
+  text-align: start;
+  color: var(--cor-marrom);
+  margin-bottom: 30px;
+  font-size: 36px;
+}
+
+.cardWrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+
+.cardVolunteer {
+  width: 30%;
+  height: 400px;
+  background-color: #fff6f2;
+  border: 2px solid var(--cor-marrom);
+  border-radius: 30px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: var(--cor-marrom);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  margin: 0 auto;
+}
+
+.cardVolunteer:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.volunteerImage {
+  width: 100%;
+  height: 280px;
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid var(--cor-vermelho);
+  margin-bottom: 15px;
+  display: block;
+}
+
+.volunteerName {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--cor-marrom);
+}
+
+.volunteerRole {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--cor-marrom);
+}
+
+/* ---- CTA ---- */
+.volunteerCta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  margin-bottom: 60px;
+}
+
+.dividerIcon {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.dividerIcon::before,
+.dividerIcon::after {
+  content: "";
+  flex: 1;
+  border-top: 2px dashed #aaa;
+}
+
+.dividerIcon img {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.ctaText {
+  font-size: 20px;
+  color: var(--cor-marrom);
+  margin-bottom: 20px;
+  max-width: 600px;
+}
+
+.ctaBtn {
+  display: inline-block;
+  text-decoration: none;
+  background-color: var(--cor-vermelho);
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 18px;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+
+.ctaBtn:hover {
+  background-color: #8c2a00;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- Localização ---- */
+.location {
+  display: flex;
+  gap: 60px;
+  padding: 40px 0;
+  margin: 40px 0 60px;
+  align-items: flex-start;
+}
+
+.locationInfo {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.locationTitle {
+  text-align: center;
+  font-size: 36px;
+  color: var(--cor-marrom);
+  gap: 0;
+}
+
+.locationHeader {
+  color: var(--cor-marrom);
+  text-align: center;
+  font-size: 20px;
+  gap: 0;
+}
+
+.locationAddress,
+.locationHours {
+  border-radius: 15px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: white;
+}
+
+.locationAddress { background-color: var(--cor-laranja); }
+.locationHours   { background-color: var(--cor-marrom);  }
+
+.locationIcon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.animalsIllustration {
+  align-self: center;
+  width: 100%;
+  gap: 0;
+  height: auto;
+  object-fit: none;
+}
+
+.locationMap {
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #5a8fc2;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.locationMap iframe {
+  width: 100%;
+  height: 450px;
+  border: none;
+}
+
+.locationMapBtn {
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--cor-marrom);
+  color: var(--cor-laranja);
+  padding: 15px;
+  font-weight: bold;
+  font-size: 18px;
+  transition: background 0.3s;
+}
+
+.locationMapBtn:hover {
+  background-color: #2a1e19;
+}
+
+/* ---- Responsividade ---- */
+@media (max-width: 768px) {
+
+  /* ---- Hero ---- */
+  .hero {
+    flex-direction: column;
+  }
+
+  .heroImage {
+    width: 50%;
+  }
+
+  .ongDescription {
+    width: 90%;
+    font-size: 1rem;
+  }
+
+  .ongTitle {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  /* ---- Voluntários ---- */
+  .ongTeam {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  .cardWrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cardVolunteer {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+
+  /* ---- CTA ---- */
+  .ctaText {
+    font-size: 1.1rem;
+  }
+
+  .ctaBtn {
+    font-size: 1.1rem;
+    padding: 10px 24px;
+  }
+
+  /* ---- Localização ---- */
+  .location {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .locationTitle {
+    font-size: 26px;
+  }
+
+  .locationMap {
+    margin: 0 auto;
+    height: 300px;
+  }
+
+  .locationMap iframe {
+    height: 300px;
+  }
+
+  .animalsIllustration {
+    max-width: 100%;
+    object-fit: contain;
+  }
+}
