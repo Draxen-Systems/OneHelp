@@ -52,3 +52,5 @@ export function Donation() {
     </div>
   );
 }
+
+export default Donation;
