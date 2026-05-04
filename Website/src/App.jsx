@@ -5,8 +5,6 @@ import Contact from "./pages/Contact";
 import Ong from "./pages/Ong";
 import Donation from "./pages/Donation";
 import Homepage from "./pages/Homepage";
-
-main
 import "./App.css";
 
 const App = () => {
