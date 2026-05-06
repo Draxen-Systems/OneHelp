@@ -1,0 +1,27 @@
+# --- Ambientes Virtuais ---
+venv/
+.venv/
+Sistema/Backend/venv/
+Sistema/Backend/.venv/
+env/
+.env
+
+# --- Django ---
+*.log
+Sistema/Backend/db.sqlite3
+Sistema/Backend/db.sqlite3-journal
+Sistema/Backend/media/
+Sistema/Backend/staticfiles/
+
+# --- Python ---
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+*.so
+.Python
+    
+# --- Editores e Sistema ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
