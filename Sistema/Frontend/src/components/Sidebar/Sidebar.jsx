@@ -73,12 +73,17 @@ const Sidebar = () => {
           {isAnimaisOpen && isOpen && (
             <ul className={styles.dropdownList}>
               <li className={styles.dropdownItem}>
-                <Link to="/animais/listar" className={`${styles.dropdownLink} ${checkActive('/animais/listar')}`}>
+                <Link to="/Cadanimals" className={`${styles.dropdownLink} ${checkActive('/Cadanimals')}`}>
+                  - Cadastrar Animal
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link to="/listanimals" className={`${styles.dropdownLink} ${checkActive('/animais/listar')}`}>
                   - Listar Animais
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link to="/animais/raca" className={`${styles.dropdownLink} ${checkActive('/animais/raca')}`}>
+                <Link to="raceanimals" className={`${styles.dropdownLink} ${checkActive('/animais/raca')}`}>
                   - Raça
                 </Link>
               </li>
