@@ -1,0 +1,161 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: #2b3e31; 
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.sidebar.collapsed {
+  width: 110px; 
+  padding: 1rem 0.5rem;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 1rem;
+}
+
+.collapsed .sidebarHeader {
+  justify-content: center;
+  gap: 10px; 
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  overflow: hidden; 
+}
+
+.logoFull {
+  width: 200px;
+  min-width: 160px;
+  height: auto;
+}
+
+.logoMini {
+  width: 45px;
+  min-width: 45px;
+  height: auto;
+}
+
+.menuBtn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.navItem {
+  width: 100%;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.2s;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+.collapsed .navLink {
+  justify-content: center;
+  padding: 12px 0;
+  width: 100%;
+}
+
+.navIcon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  margin-right: 15px;
+  filter: brightness(0) invert(1);
+}
+
+.collapsed .navIcon {
+  margin-right: 0;
+}
+
+.navText {
+  font-size: 1.05rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.collapsed .navText {
+  display: none;
+}
+
+.navLink.active {
+  background-color: #cb7e5e; 
+}
+
+.arrowIcon {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.collapsed .arrowIcon {
+  display: none;
+}
+
+.dropdownList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; 
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 10px 60px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2); 
+}
+
+.dropdownItem {
+  width: 100%;
+}
+
+.dropdownLink {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  padding-left: 15px; 
+  display: inline-block; 
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdownLink:hover {
+  color: #cb7e5e;
+}
+
+.dropdownLink.active {
+  border-bottom: 2px solid #cb7e5e;
+  padding-bottom: 2px; 
+}
+
+.logoutSection {
+  margin-top: auto; 
+  padding-top: 1rem;
+}
