@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
+// --- Assets ---
 import LogoSystem from "../../assets/OneHelp_Branco.png";
 import LogoMini from "../../assets/OneHelp_Branco_Dog.png";
 import Dashboardlogo from "../../assets/dashboard.png";
@@ -12,46 +13,38 @@ import novidadesLogo from "../../assets/news (2).png";
 import sairLogo from "../../assets/fire-exit.png";
 
 const Sidebar = () => {
+  // --- Estados: controle de abertura do sidebar e dropdowns ---
   const [isOpen, setIsOpen] = useState(true);
   const [isAnimaisOpen, setIsAnimaisOpen] = useState(false);
   const [isClientesOpen, setIsClientesOpen] = useState(false);
   const location = useLocation();
 
+  // --- Handlers de toggle ---
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
-    // Opcional: Fechar dropdowns se o sidebar colapsar
     if (isOpen) {
-        setIsAnimaisOpen(false);
-        setIsClientesOpen(false);
+      setIsAnimaisOpen(false);
+      setIsClientesOpen(false);
     }
   };
 
-  const toggleAnimaisDropdown = () => {
-    setIsAnimaisOpen(!isAnimaisOpen);
-    // Opcional: fechar outros se este abrir
-    // if (isClientesOpen) setIsClientesOpen(false); 
-  };
+  const toggleAnimaisDropdown = () => setIsAnimaisOpen(!isAnimaisOpen);
+  const toggleClientesDropdown = () => setIsClientesOpen(!isClientesOpen);
 
-  const toggleClientesDropdown = () => {
-    setIsClientesOpen(!isClientesOpen);
-    // Opcional: fechar outros se este abrir
-    // if (isAnimaisOpen) setIsAnimaisOpen(false);
-  };
+  // --- Helpers de estado ativo para links ---
+  const checkActive = (path) =>
+    location.pathname === path ? styles.active : "";
 
-  const toggleClientesDropdown = () => {
-    setIsClientesOpen(!isClientesOpen);
-  };
-
-  const checkActive = (path) => {
-    return location.pathname === path ? styles.active : "";
-  };
-
-  const checkActiveParent = (paths) => {
-    return paths.some(path => location.pathname.toLowerCase().startsWith(path.toLowerCase())) ? styles.active : '';
-  };
+  const checkActiveParent = (paths) =>
+    paths.some((path) =>
+      location.pathname.toLowerCase().startsWith(path.toLowerCase()),
+    )
+      ? styles.active
+      : "";
 
   return (
     <aside className={`${styles.sidebar} ${!isOpen ? styles.collapsed : ""}`}>
+      {/* --- Cabeçalho: logo + botão de colapso --- */}
       <div className={styles.sidebarHeader}>
         <div className={styles.logoContainer}>
           {isOpen ? (
@@ -73,7 +66,9 @@ const Sidebar = () => {
         </button>
       </div>
 
+      {/* --- Navegação principal --- */}
       <ul className={styles.navList}>
+        {/* --- Dashboard --- */}
         <li className={styles.navItem}>
           <Link
             to="/dashboard"
@@ -87,41 +82,43 @@ const Sidebar = () => {
           </Link>
         </li>
 
-        {/* --- ANIMAIS --- */}
+        {/* --- Animais (dropdown) --- */}
         <li className={styles.navItem}>
-          <div 
-            className={`${styles.navLink} ${checkActiveParent(['/animais', '/cadanimals', '/listanimals', '/raceanimals'])}`} 
+          <div
+            className={`${styles.navLink} ${checkActiveParent(["/animais", "/cadanimals", "/listanimals", "/raceanimals"])}`}
             onClick={toggleAnimaisDropdown}
             style={{ cursor: "pointer" }}>
             <img src={animaisLogo} alt="Animais" className={styles.navIcon} />
             <span className={styles.navText}>Animais</span>
             {isOpen && (
-              // Usamos sempre '∨' e rotacionamos no CSS
-              <span className={`${styles.arrowIcon} ${isAnimaisOpen ? styles.arrowOpen : ''}`}>
+              <span
+                className={`${styles.arrowIcon} ${isAnimaisOpen ? styles.arrowOpen : ""}`}>
                 ∨
               </span>
             )}
           </div>
-          
-          {/* SEMPRE renderizamos o ul, controlamos a visibilidade pelo CSS com animação */}
+
           {isOpen && (
-            <ul className={`${styles.dropdownList} ${isAnimaisOpen ? styles.dropdownOpen : ''}`}>
+            <ul
+              className={`${styles.dropdownList} ${isAnimaisOpen ? styles.dropdownOpen : ""}`}>
               <li className={styles.dropdownItem}>
                 <Link
-                  to="/Cadanimals"
-                  className={`${styles.dropdownLink} ${checkActive("/Cadanimals")}`}>
+                  to="/cadanimals"
+                  className={`${styles.dropdownLink} ${checkActive("/cadanimals")}`}>
                   - Cadastrar Animal
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link to="/listanimals" className={`${styles.dropdownLink} ${checkActive('/listanimals')}`}>
+                <Link
+                  to="/listanimals"
+                  className={`${styles.dropdownLink} ${checkActive("/listanimals")}`}>
                   - Listar Animais
                 </Link>
-              </li> 
+              </li>
               <li className={styles.dropdownItem}>
                 <Link
-                  to="raceanimals"
-                  className={`${styles.dropdownLink} ${checkActive("/animais/raca")}`}>
+                  to="/raceanimals"
+                  className={`${styles.dropdownLink} ${checkActive("/raceanimals")}`}>
                   - Raça
                 </Link>
               </li>
@@ -129,40 +126,44 @@ const Sidebar = () => {
           )}
         </li>
 
-        {/* --- CLIENTES --- */}
+        {/* --- Clientes (dropdown) --- */}
         <li className={styles.navItem}>
-          <div 
-            className={`${styles.navLink} ${checkActiveParent(['/clientes', '/cadadopter', '/listclientes'])}`} 
+          <div
+            className={`${styles.navLink} ${checkActiveParent(["/clientes", "/cadadopter", "/listadopter"])}`}
             onClick={toggleClientesDropdown}
-            style={{ cursor: 'pointer' }}
-          >
+            style={{ cursor: "pointer" }}>
             <img src={clientesLogo} alt="Clientes" className={styles.navIcon} />
             <span className={styles.navText}>Clientes</span>
             {isOpen && (
-              // Usamos sempre '∨' e rotacionamos no CSS
-              <span className={`${styles.arrowIcon} ${isClientesOpen ? styles.arrowOpen : ''}`}>
+              <span
+                className={`${styles.arrowIcon} ${isClientesOpen ? styles.arrowOpen : ""}`}>
                 ∨
               </span>
             )}
           </div>
-          
-          {/* SEMPRE renderizamos o ul */}
+
           {isOpen && (
-            <ul className={`${styles.dropdownList} ${isClientesOpen ? styles.dropdownOpen : ''}`}>
+            <ul
+              className={`${styles.dropdownList} ${isClientesOpen ? styles.dropdownOpen : ""}`}>
               <li className={styles.dropdownItem}>
-                <Link to="/cadadopter" className={`${styles.dropdownLink} ${checkActive('/cadadopter')}`}>
+                <Link
+                  to="/cadadopter"
+                  className={`${styles.dropdownLink} ${checkActive("/cadadopter")}`}>
                   - Cadastrar Cliente
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link to="/listclientes" className={`${styles.dropdownLink} ${checkActive('/listclientes')}`}>
+                <Link
+                  to="/listadopter"
+                  className={`${styles.dropdownLink} ${checkActive("/listadopter")}`}>
                   - Listar Clientes
                 </Link>
-              </li> 
+              </li>
             </ul>
           )}
         </li>
 
+        {/* --- Funcionários --- */}
         <li className={styles.navItem}>
           <Link
             to="/funcionarios"
@@ -175,6 +176,8 @@ const Sidebar = () => {
             <span className={styles.navText}>Funcionários</span>
           </Link>
         </li>
+
+        {/* --- Novidades --- */}
         <li className={styles.navItem}>
           <Link
             to="/novidades"
@@ -189,6 +192,7 @@ const Sidebar = () => {
         </li>
       </ul>
 
+      {/* --- Rodapé: logout --- */}
       <div className={styles.logoutSection}>
         <Link to="/login" className={styles.navLink}>
           <img src={sairLogo} alt="Sair" className={styles.navIcon} />
