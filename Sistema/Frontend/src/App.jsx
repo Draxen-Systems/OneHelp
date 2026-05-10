@@ -2,9 +2,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Header from "./components/Perfiladm/Header"; 
 import "./App.css";
+
+// --- Animais ---
 import Cadanimals from './pages/Cadanimals';
 import Listanimals from './pages/ListAnimals';
 
+// Clientes
+import ListAdopter from "./pages/ListAdopter";
 const App = () => {
   return (
     <BrowserRouter>
@@ -17,6 +21,9 @@ const App = () => {
           <Routes>
             <Route path="/Cadanimals" element={<Cadanimals />} />
             <Route path="/Listanimals" element={<Listanimals />} />
+            <Route path="/Cadadopter" element={<Listanimals />} />
+            <Route path="/ListAdopter" element={<ListAdopter />} />
+
           </Routes>
         </main>
 
