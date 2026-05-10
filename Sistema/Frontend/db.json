@@ -201,5 +201,147 @@
       "foto": "https://images.unsplash.com/photo-1507146426996-ef05306b995a?w=200&h=200&fit=crop"
     }
   ],
+  "clientes": [
+    {
+      "id": "2",
+      "nome_cliente": "Carlos Eduardo Souza",
+      "cpf": "222.333.444-55",
+      "tipo_residencia": "apartamento",
+      "uf": "MG",
+      "data_nascimento": "22/08/1985",
+      "status": "Inativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/2.jpg"
+    },
+    {
+      "id": "3",
+      "nome_cliente": "Beatriz Costa",
+      "cpf": "333.444.555-66",
+      "tipo_residencia": "casa",
+      "uf": "RJ",
+      "data_nascimento": "10/11/1998",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/3.jpg"
+    },
+    {
+      "id": "4",
+      "nome_cliente": "Marcos Vinícius Lima",
+      "cpf": "444.555.666-77",
+      "tipo_residencia": "outro",
+      "uf": "SP",
+      "data_nascimento": "05/01/1975",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/4.jpg"
+    },
+    {
+      "id": "5",
+      "nome_cliente": "Fernanda Ribeiro",
+      "cpf": "555.666.777-88",
+      "tipo_residencia": "apartamento",
+      "uf": "SP",
+      "data_nascimento": "30/03/2001",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/5.jpg"
+    },
+    {
+      "id": "6",
+      "nome_cliente": "João Pedro Santos",
+      "cpf": "666.777.888-99",
+      "tipo_residencia": "casa",
+      "uf": "MG",
+      "data_nascimento": "12/12/1988",
+      "status": "Inativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/6.jpg"
+    },
+    {
+      "id": "7",
+      "nome_cliente": "Camila Ferreira",
+      "cpf": "777.888.999-00",
+      "tipo_residencia": "apartamento",
+      "uf": "RJ",
+      "data_nascimento": "25/07/1995",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/7.jpg"
+    },
+    {
+      "id": "8",
+      "nome_cliente": "Lucas Almeida",
+      "cpf": "888.999.000-11",
+      "tipo_residencia": "casa",
+      "uf": "SP",
+      "data_nascimento": "18/09/1992",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/8.jpg"
+    },
+    {
+      "id": "9",
+      "nome_cliente": "Juliana Pereira",
+      "cpf": "999.000.111-22",
+      "tipo_residencia": "casa",
+      "uf": "MG",
+      "data_nascimento": "03/05/1980",
+      "status": "Inativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/9.jpg"
+    },
+    {
+      "id": "10",
+      "nome_cliente": "Rafael Martins",
+      "cpf": "000.111.222-33",
+      "tipo_residencia": "apartamento",
+      "uf": "SP",
+      "data_nascimento": "14/02/1997",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/10.jpg"
+    },
+    {
+      "id": "11",
+      "nome_cliente": "Letícia Gomes",
+      "cpf": "123.456.789-01",
+      "tipo_residencia": "outro",
+      "uf": "RJ",
+      "data_nascimento": "21/06/1983",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/11.jpg"
+    },
+    {
+      "id": "12",
+      "nome_cliente": "Thiago Barbosa",
+      "cpf": "234.567.890-12",
+      "tipo_residencia": "casa",
+      "uf": "SP",
+      "data_nascimento": "09/10/1991",
+      "status": "Inativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/12.jpg"
+    },
+    {
+      "id": "13",
+      "nome_cliente": "Mariana Rocha",
+      "cpf": "345.678.901-23",
+      "tipo_residencia": "apartamento",
+      "uf": "MG",
+      "data_nascimento": "28/12/1999",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/13.jpg"
+    },
+    {
+      "id": "14",
+      "nome_cliente": "Gabriel Dias",
+      "cpf": "456.789.012-34",
+      "tipo_residencia": "casa",
+      "uf": "SP",
+      "data_nascimento": "17/03/1987",
+      "status": "Ativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/men/14.jpg"
+    },
+    {
+      "id": "15",
+      "nome_cliente": "Amanda Castro",
+      "cpf": "567.890.123-45",
+      "tipo_residencia": "apartamento",
+      "uf": "RJ",
+      "data_nascimento": "04/08/1994",
+      "status": "Inativo",
+      "foto_cliente": "https://randomuser.me/api/portraits/women/15.jpg"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }
