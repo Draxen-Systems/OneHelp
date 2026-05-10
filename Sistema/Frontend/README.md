@@ -1,16 +1,55 @@
-# React + Vite
+# OneHelp - Front-end (ONG Bicho Carente)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é o repositório front-end do sistema OneHelp, desenvolvido para a gestão da ONG Bicho Carente. O projeto foi construído utilizando React e Vite.
 
-Currently, two official plugins are available:
+## 🛠️ Tecnologias e Dependências Principais
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A interface utiliza as seguintes bibliotecas principais:
 
-## React Compiler
+* **React (v19)**
+* **Vite (v8)**
+* **React Router Dom:** Gerenciamento de rotas e navegação da aplicação.
+* **React Hook Form:** Gerenciamento e validação de formulários.
+* **React Number Format:** Formatação e máscaras de inputs numéricos.
+* **SweetAlert2:** Modais e alertas customizados.
+* **Lucide React:** Biblioteca de ícones.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ⚙️ Pré-requisitos
 
-## Expanding the ESLint configuration
+* [Node.js](https://nodejs.org/) (Versão 18 ou superior)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 📦 Instalação
+
+dentro das pastas webiste ou sistema/frontend deve ser rodado estes comandos para instalação de todas as dependencias
+
+```bash
+npm install
+npm install lucide-react react react-dom react-hook-form react-number-format react-router-dom sweetalert2
+```
+
+## 🚀 Comandos do Projeto
+
+Para acessar o website 🎨
+
+```bash
+cd website
+npm run dev
+```
+
+Para acessar o sistema 💻
+
+```bash
+cd sistema
+cd frontend
+```
+
+abra um cmd e deixe ele rodando este comando ⬇️
+```bash
+json-server --watch db.json --port 3001 
+```
+
+abra outro cmd e rode este comando ⬇️
+
+```bash
+npm run dev
+```

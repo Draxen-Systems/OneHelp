@@ -6,6 +6,7 @@ import "./App.css";
 // --- Animais ---
 import Cadanimals from './pages/Cadanimals';
 import Listanimals from './pages/ListAnimals';
+import CadAdopter from './pages/CadAdopter';
 
 // Clientes
 import ListAdopter from "./pages/ListAdopter";
@@ -21,7 +22,7 @@ const App = () => {
           <Routes>
             <Route path="/Cadanimals" element={<Cadanimals />} />
             <Route path="/Listanimals" element={<Listanimals />} />
-            <Route path="/Cadadopter" element={<Listanimals />} />
+            <Route path="/CadAdopter" element={<CadAdopter />} />
             <Route path="/ListAdopter" element={<ListAdopter />} />
 
           </Routes>
