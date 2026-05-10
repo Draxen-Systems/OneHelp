@@ -1,16 +1,6 @@
 {
   "animais": [
     {
-      "id": "1",
-      "nome": "Bob",
-      "especie": "Cachorro",
-      "sexo": "Macho",
-      "pcd": "Não",
-      "status": "Para Adoção",
-      "porte": "Medio",
-      "foto": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200&h=200&fit=crop"
-    },
-    {
       "id": "2",
       "nome": "Gary",
       "especie": "Gato",

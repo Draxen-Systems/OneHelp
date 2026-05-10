@@ -14,22 +14,36 @@ import sairLogo from '../../assets/fire-exit.png';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [isAnimaisOpen, setIsAnimaisOpen] = useState(false);
+  const [isClientesOpen, setIsClientesOpen] = useState(false);
   const location = useLocation();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+    // Opcional: Fechar dropdowns se o sidebar colapsar
+    if (isOpen) {
+        setIsAnimaisOpen(false);
+        setIsClientesOpen(false);
+    }
   };
 
   const toggleAnimaisDropdown = () => {
     setIsAnimaisOpen(!isAnimaisOpen);
+    // Opcional: fechar outros se este abrir
+    // if (isClientesOpen) setIsClientesOpen(false); 
+  };
+
+  const toggleClientesDropdown = () => {
+    setIsClientesOpen(!isClientesOpen);
+    // Opcional: fechar outros se este abrir
+    // if (isAnimaisOpen) setIsAnimaisOpen(false);
   };
 
   const checkActive = (path) => {
     return location.pathname === path ? styles.active : '';
   };
 
-  const checkActiveParent = (basePath) => {
-    return location.pathname.startsWith(basePath) ? styles.active : '';
+  const checkActiveParent = (paths) => {
+    return paths.some(path => location.pathname.toLowerCase().startsWith(path.toLowerCase())) ? styles.active : '';
   };
 
   return (
@@ -55,33 +69,36 @@ const Sidebar = () => {
           </Link>
         </li>
 
+        {/* --- ANIMAIS --- */}
         <li className={styles.navItem}>
           <div 
-            className={`${styles.navLink} ${checkActiveParent('/animais')}`} 
+            className={`${styles.navLink} ${checkActiveParent(['/animais', '/cadanimals', '/listanimals', '/raceanimals'])}`} 
             onClick={toggleAnimaisDropdown}
             style={{ cursor: 'pointer' }}
           >
             <img src={animaisLogo} alt="Animais" className={styles.navIcon} />
             <span className={styles.navText}>Animais</span>
             {isOpen && (
-              <span className={styles.arrowIcon}>
-                {isAnimaisOpen ? ' ∧' : ' ∨'}
+              // Usamos sempre '∨' e rotacionamos no CSS
+              <span className={`${styles.arrowIcon} ${isAnimaisOpen ? styles.arrowOpen : ''}`}>
+                ∨
               </span>
             )}
           </div>
           
-          {isAnimaisOpen && isOpen && (
-            <ul className={styles.dropdownList}>
+          {/* SEMPRE renderizamos o ul, controlamos a visibilidade pelo CSS com animação */}
+          {isOpen && (
+            <ul className={`${styles.dropdownList} ${isAnimaisOpen ? styles.dropdownOpen : ''}`}>
               <li className={styles.dropdownItem}>
                 <Link to="/Cadanimals" className={`${styles.dropdownLink} ${checkActive('/Cadanimals')}`}>
                   - Cadastrar Animal
                 </Link>
               </li>
               <li className={styles.dropdownItem}>
-                <Link to="/listanimals" className={`${styles.dropdownLink} ${checkActive('/animais/listar')}`}>
+                <Link to="/listanimals" className={`${styles.dropdownLink} ${checkActive('/listanimals')}`}>
                   - Listar Animais
                 </Link>
-              </li>
+              </li> 
               <li className={styles.dropdownItem}>
                 <Link to="raceanimals" className={`${styles.dropdownLink} ${checkActive('/animais/raca')}`}>
                   - Raça
@@ -91,12 +108,40 @@ const Sidebar = () => {
           )}
         </li>
 
+        {/* --- CLIENTES --- */}
         <li className={styles.navItem}>
-          <Link to="/clientes" className={`${styles.navLink} ${checkActive('/clientes')}`}>
+          <div 
+            className={`${styles.navLink} ${checkActiveParent(['/clientes', '/cadadopter', '/listclientes'])}`} 
+            onClick={toggleClientesDropdown}
+            style={{ cursor: 'pointer' }}
+          >
             <img src={clientesLogo} alt="Clientes" className={styles.navIcon} />
             <span className={styles.navText}>Clientes</span>
-          </Link>
+            {isOpen && (
+              // Usamos sempre '∨' e rotacionamos no CSS
+              <span className={`${styles.arrowIcon} ${isClientesOpen ? styles.arrowOpen : ''}`}>
+                ∨
+              </span>
+            )}
+          </div>
+          
+          {/* SEMPRE renderizamos o ul */}
+          {isOpen && (
+            <ul className={`${styles.dropdownList} ${isClientesOpen ? styles.dropdownOpen : ''}`}>
+              <li className={styles.dropdownItem}>
+                <Link to="/cadadopter" className={`${styles.dropdownLink} ${checkActive('/cadadopter')}`}>
+                  - Cadastrar Cliente
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link to="/listclientes" className={`${styles.dropdownLink} ${checkActive('/listclientes')}`}>
+                  - Listar Clientes
+                </Link>
+              </li> 
+            </ul>
+          )}
         </li>
+
         <li className={styles.navItem}>
           <Link to="/funcionarios" className={`${styles.navLink} ${checkActive('/funcionarios')}`}>
             <img src={funcionariosLogo} alt="Funcionários" className={styles.navIcon} />
