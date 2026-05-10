@@ -1,33 +1,34 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
-import Header from "./components/Perfiladm/Header"; 
+import Header from "./components/Perfiladm/Header";
 import "./App.css";
 
 // --- Animais ---
-import Cadanimals from './pages/Cadanimals';
-import Listanimals from './pages/ListAnimals';
-import CadAdopter from './pages/CadAdopter';
+import Cadanimals from "./pages/Cadanimals";
+import Listanimals from "./pages/ListAnimals";
 
-// Clientes
+// --- Clientes ---
+import CadAdopter from "./pages/CadAdopter";
 import ListAdopter from "./pages/ListAdopter";
+
 const App = () => {
   return (
     <BrowserRouter>
       <div className="App">
-        <Sidebar />
 
+        <Sidebar />
         <main className="main-content">
           <Header />
 
+          {/* --- Redirecionamentos --- */}
           <Routes>
-            <Route path="/Cadanimals" element={<Cadanimals />} />
-            <Route path="/Listanimals" element={<Listanimals />} />
-            <Route path="/CadAdopter" element={<CadAdopter />} />
-            <Route path="/ListAdopter" element={<ListAdopter />} />
-
+            <Route path="/cadanimals"   element={<Cadanimals />} />
+            <Route path="/listanimals"  element={<Listanimals />} />
+            <Route path="/cadadopter"   element={<CadAdopter />} />
+            <Route path="/listadopter"  element={<ListAdopter />} />
           </Routes>
-        </main>
 
+        </main>
       </div>
     </BrowserRouter>
   );
