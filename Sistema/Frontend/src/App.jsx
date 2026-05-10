@@ -3,6 +3,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Header from "./components/Perfiladm/Header"; 
 import "./App.css";
 import Cadanimals from './pages/Cadanimals';
+import Listanimals from './pages/ListAnimals';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
 
           <Routes>
             <Route path="/Cadanimals" element={<Cadanimals />} />
+            <Route path="/Listanimals" element={<Listanimals />} />
           </Routes>
         </main>
 
