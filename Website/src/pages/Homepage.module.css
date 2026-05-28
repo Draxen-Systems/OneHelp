@@ -3,8 +3,6 @@
   flex-direction: column;
   gap: 20px;
   padding: 0;
-  background-color: #FAF8F5; 
-  font-family: 'Arial', sans-serif;
 }
 
 .bannerSection {
@@ -109,7 +107,6 @@
   max-width: 1500px;
   margin: 0 auto;
   padding: 40px 20px;
-  background-color: #FAF8F5; 
 }
 
 .bazarContent {
@@ -179,11 +176,13 @@
   background-color: transparent; 
   align-self: center;
   aspect-ratio: 1 / 1;
+  background-color: transparent;
 }
 
 .bazarLogo {
   max-width: 100%;
   height: auto;
+  background-color: transparent;
 }
 
 .bazarActionRow {

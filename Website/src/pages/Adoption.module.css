@@ -1,0 +1,227 @@
+.adoptionPage {
+  padding: 40px 20px;
+  min-height: 100vh;
+  color: #3b2b24; 
+  position: relative;
+  overflow: hidden;
+}
+
+.pageTitle {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 50px;
+  font-weight: bold;
+  color: #3b2b24 !important;
+}
+
+.contentWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 50px;
+}
+
+.sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  position: relative;
+  text-align: left !important;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start; 
+}
+
+
+.filterTitle {
+  color: #7eb87a; 
+  font-size: 1.3rem;
+  margin: 0 0 10px 0;
+  text-align: left;
+}
+
+.filterList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: bold;
+  align-items: flex-start;
+}
+
+.filterList li {
+  cursor: pointer;
+  color: #3b2b24;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.filterList li:hover {
+  color: #7eb87a;
+  transform: translateX(4px);
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #3b2b24;
+  transition: color 0.2s ease;
+    accent-color: #6d4c41;
+}
+
+.checkboxLabel:hover {
+  color: #7eb87a;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #7eb87a;
+  cursor: pointer;
+  margin: 0;
+  border: 2px solid #3b2b24;
+  border-radius: 4px;
+}
+
+.pawsBackground {
+  position: absolute;
+  top: 300px;
+  left: -50px;
+  width: 200px;
+  height: 400px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cardsArea {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 100%;
+}
+
+.animalCard {
+  background-color: #ffffff;
+  border: 1px solid #3b2b24;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.animalCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.animalImage {
+  width: 100%;
+  height: 200px; 
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.animalName {
+  font-size: 1.4rem;
+  margin: 0 0 5px 0;
+  color: #3b2b24;
+}
+
+.animalInfo {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.animalDate {
+  margin: 10px 0 15px 0;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.btnHistory {
+  background-color: #7eb87a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btnHistory:hover {
+  background-color: #6da26a;
+}
+
+.pagination {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.pageItem, .pageItemActive, .pageArrow, .pageDots {
+  cursor: pointer;
+}
+
+.pageItemActive {
+  border: 2px solid #7eb87a;
+  padding: 5px 12px;
+  border-radius: 5px;
+  color: #3b2b24;
+}
+
+/*Responsividade pra Celular */
+@media (max-width: 900px) {
+  .contentWrapper {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+}
