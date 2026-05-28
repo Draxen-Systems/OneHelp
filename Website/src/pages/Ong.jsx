@@ -14,14 +14,14 @@ const Ong = () => {
       {/* ---  Hero --- */}
       <div className={styles.containerPrincipal}>
         <div className={styles.heroSection}>
-          <h1 className={styles.ongTitle}>Conheça a nossa ONG</h1>
+          <h1 className={styles.ongTitle} data-aos="fade-up">Conheça a nossa ONG</h1>
 
           <div className={styles.hero}>
-            <div className={styles.heroImage}>
+            <div className={styles.heroImage} data-aos="fade-up" data-aos-delay="200">
               <img src={logo} alt="Logo da ONG Bicho Carente" />
             </div>
 
-            <div className={styles.ongDescription}>
+            <div className={styles.ongDescription} data-aos="fade-up" data-aos-delay="400">
               <p className={styles.descriptionText}>
                 A Bicho Carente é uma ONG sem fins lucrativos localizada em Leme
                 – SP, dedicada ao cuidado, proteção e bem-estar dos animais.
@@ -45,7 +45,7 @@ const Ong = () => {
         <h2 className={styles.ongTeam}>Conheça a equipe Bicho Carente</h2>
 
         <div className={styles.cardWrapper}>
-          <div className={styles.cardVolunteer}>
+          <div className={styles.cardVolunteer}data-aos="fade-up">
             <img
               className={styles.volunteerImage}
               src={Fabiele}
@@ -54,12 +54,12 @@ const Ong = () => {
             <h3 className={styles.volunteerName}>Fabiele</h3>
             <p className={styles.volunteerRole}>Fundadora da ONG</p>
           </div>
-          <div className={styles.cardVolunteer}>
+          <div className={styles.cardVolunteer} data-aos="fade-up" data-aos-delay="200">
             <img className={styles.volunteerImage} src={Luan} alt="Luan" />
             <h3 className={styles.volunteerName}>Luan</h3>
             <p className={styles.volunteerRole}>Ajudante do Bazar</p>
           </div>
-          <div className={styles.cardVolunteer}>
+          <div className={styles.cardVolunteer} data-aos="fade-up" data-aos-delay="400">
             <img
               className={styles.volunteerImage}
               src={Caroline}
@@ -77,16 +77,17 @@ const Ong = () => {
           <img src={Paw} alt="" aria-hidden="true" />
         </div>
 
-        <p className={styles.ctaText}>
+        <p className={styles.ctaText} data-aos="fade-up">
           Tem amor sobrando e quer compartilhar com quem não tem voz? Nossa
           equipe adoraria ter <strong>você</strong> com a gente!
         </p>
 
-        <a
+        <a 
           href="https://wa.me/5519990151408?text=Olá!%20Tenho%20interesse%20em%20fazer%20parte%20da%20equipe%20da%20Bicho%20Carente."
           target="_blank"
           rel="noopener noreferrer"
           className={styles.ctaBtn}
+          data-aos="fade-up"
         >
           Quero Ajudar
         </a>
@@ -96,7 +97,7 @@ const Ong = () => {
 
       <div className={styles.containerPrincipal}>
         <section className={styles.location}>
-          <div className={styles.locationInfo}>
+          <div className={styles.locationInfo} data-aos="fade-right">
             <h2 className={styles.locationTitle}>Onde nos encontrar</h2>
             <p className={styles.locationHeader}>Venha nos fazer uma visita!</p>
 
@@ -130,7 +131,7 @@ const Ong = () => {
             />
           </div>
 
-          <div className={styles.locationMap}>
+          <div className={styles.locationMap} data-aos="fade-right" data-aos-delay="300">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3694.4789517128793!2d-47.38311532664175!3d-22.1838974519396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94c80b9ba821f987%3A0xc947bfa9fff13dfa!2sR.%20Dr.%20Armando%20Salles%20Oliveira%2C%2045%20-%20Centro%2C%20Leme%20-%20SP%2C%2013610-220!5e0!3m2!1spt-BR!2sbr!4v1777757724091!5m2!1spt-BR!2sbr&output=embed"
               width="100%"

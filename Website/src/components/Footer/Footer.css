@@ -131,23 +131,16 @@
   }
 
   .footer-menu {
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+    flex-direction: row;
+    gap: 40px; 
+    align-items: flex-start; 
+    justify-content: center;
   }
 
   .menu-col {
     align-items: center !important;
     text-align: center !important;
-    padding-left: 45px;
-  }
-
-  .menu-col ul {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding-left: 0;
   }
 
   .coluna-direita {
