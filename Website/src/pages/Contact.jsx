@@ -16,7 +16,7 @@ const Contact = () => {
       <div className={styles.cardsWrapper}>
         <div
           className={`${styles.card} ${styles.instagram}`}
-          style={{ animationDelay: "0.05s" }}
+          data-aos="fade-up"
         >
           <h2 className={styles.cardTitle}>Instagram</h2>
           <img className={styles.logoIcon} src={INSTA} alt="Instagram Logo" />
@@ -38,7 +38,8 @@ const Contact = () => {
 
         <div
           className={`${styles.card} ${styles.whatsapp}`}
-          style={{ animationDelay: "0.1s" }}
+          data-aos="fade-up"
+          data-aos-delay="200"
         >
           <h2 className={styles.cardTitle}>Whatsapp</h2>
           <img className={styles.logoIcon} src={WHATS} alt="Whatsapp Logo" />
@@ -60,7 +61,8 @@ const Contact = () => {
 
         <div
           className={`${styles.card} ${styles.email}`}
-          style={{ animationDelay: "0.15s" }}
+          data-aos="fade-up"
+          data-aos-delay="400"
         >
           <h2 className={styles.cardTitle}>E-mail</h2>
           <img className={styles.logoIcon} src={EMAIL} alt="Gmail Logo" />
@@ -80,7 +82,8 @@ const Contact = () => {
 
         <div
           className={`${styles.card} ${styles.facebook}`}
-          style={{ animationDelay: "0.2s" }}
+          data-aos="fade-up"
+          data-aos-delay="600"
         >
           <h2 className={styles.cardTitle}>Facebook</h2>
           <img className={styles.logoIcon} src={FACE} alt="Facebook Logo" />

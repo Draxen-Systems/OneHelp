@@ -8,28 +8,28 @@ export function Donation() {
   return (
     <div className="donation-container">
       <div className="cards-wrapper">
-        <div className="card">
+        <div className="card" data-aos="fade-up">
           <img src={QRcode} alt="QR Code Pix" />
           <h2>Doação via Pix</h2>
           <p>Sua ajuda financeira sustenta nossa missão!</p>
           <button className="btn-card">Copiar Pix</button>
         </div>
 
-        <div className="card">
+        <div className="card" data-aos="fade-up" data-aos-delay="200">
           <img src={Racao} alt="Ração de cachorro" />
           <h2>Doação de rações</h2>
           <p>Abasteça nossa despensa e mantenha barriguinhas cheias!</p>
           <button className="btn-card">Local de Entrega</button>
         </div>
 
-        <div className="card">
+        <div className="card" data-aos="fade-up" data-aos-delay="400">
           <img src={Porquinho} alt="Porquinho Vakinha" />
           <h2>Doação Vakinha</h2>
           <p>Sua ajuda para nossa Vakinha é importante para os animais!</p>
           <button className="btn-card">Acessar Vakinha</button>
         </div>
       </div>
-      <div className="quote-section">
+      <div className="quote-section" data-aos="fade-up" data-aos-delay="600">
         <p>
           "Eles não sabem falar sobre o frio, a fome ou a solidão, mas sabem
           reconhecer, de longe, o som de um coração generoso. Ajudar um animal é
