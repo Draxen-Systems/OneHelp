@@ -19,5 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('funcionarios/', include('funcionarios.urls')), # Rota para o seu CRUD
+    path('funcionarios/', include('funcionarios.urls')), # Rota para o seu CRUD 
+    path('api/', include('animais.urls')),
 ]
