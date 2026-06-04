@@ -1,7 +1,8 @@
 .donation-container {
   padding: 40px 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cards-wrapper {
@@ -43,6 +44,7 @@
   flex-grow: 1;
 }
 
+/* O botão agora funciona bem tanto na tag <button> quanto na tag <a> */
 .btn-card {
   background-color: #84b772;
   color: white;
@@ -53,72 +55,19 @@
   font-weight: bold;
   cursor: pointer;
   width: 80%;
-  transition: 0.2s;
+  text-decoration: none; /* Para remover a linha de links */
+  display: inline-block; /* Para o <a> respeitar o padding e width */
+  box-sizing: border-box;
+  transition: background-color 0.2s ease;
 }
 
 .btn-card:hover {
   background-color: #72a161;
 }
 
-.donation-container {
-  padding: 40px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.cards-wrapper {
-  display: flex;
-  gap: 30px;
-  max-width: 1000px;
-}
-
-.card {
-  border: 2px solid #5a4b41;
-  border-radius: 15px;
-  padding: 15px;
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  background-color: transparent;
-}
-
-.card img {
-  width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-  aspect-ratio: 1 / 1;
-}
-
-.card h2 {
-  margin-top: 15px;
-  font-size: 1.4rem;
-}
-
-.card p {
-  margin: 10px 0 20px 0;
-  font-size: 1rem;
-  font-weight: 500;
-  flex-grow: 1;
-}
-
-.btn-card {
-  background-color: #84b772;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  width: 80%;
-  transition: 0.2s;
-}
-
-.btn-card:hover {
-  background-color: #72a161;
+/* Classe dinâmica para quando o Pix é copiado */
+.btn-success {
+  background-color: #28a745 !important;
 }
 
 .quote-section {
@@ -145,7 +94,7 @@
   margin: -40px;
 }
 
-/* Responsividade para Celular*/
+/* Responsividade para Celular */
 @media (max-width: 600px) {
   .cards-wrapper {
     flex-direction: column;

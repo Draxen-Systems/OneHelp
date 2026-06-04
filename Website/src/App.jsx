@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // 1. Importe o useEffect do React
+import { useEffect } from "react"; 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -7,6 +7,7 @@ import Ong from "./pages/Ong";
 import Donation from "./pages/Donation";
 import Homepage from "./pages/Homepage";
 import Adoption from "./pages/Adoption";
+import News from "./pages/News";
 import "./App.css";
 
 import AOS from "aos";
@@ -33,6 +34,7 @@ const App = () => {
             <Route path="/ong" element={<Ong />} />
             <Route path="/donation" element={<Donation />} />
             <Route path="/adote" element={<Adoption />} />
+            <Route path="/news" element={<News />} /> 
           </Routes>
         </main>
 
