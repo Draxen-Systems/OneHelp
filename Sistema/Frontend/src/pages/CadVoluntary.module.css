@@ -1,0 +1,360 @@
+/* CadVoluntary.module.css */
+
+.container {
+  padding: 20px 24px;
+  background: #f0ede8;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2d3a2e;
+  margin-bottom: 14px;
+  margin-left: 0px;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Layout topo */
+.topContent {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.formSection {
+  flex: 1;
+}
+
+.mediaSection {
+  width: 210px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Seção header numerado */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  margin-top: 16px;
+}
+
+.sectionHeader:first-child {
+  margin-top: 0;
+}
+
+.sectionNumber {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2d3a2e;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2d3a2e;
+}
+
+/* Rows */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-end;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.fieldGroup label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.required {
+  color: #e53e3e;
+}
+
+.fieldGroup input,
+.fieldGroup select {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #374151;
+  background: #fff;
+  outline: none;
+  height: 32px;
+  font-family: inherit;
+}
+
+.fieldGroup input::placeholder {
+  color: #9ca3af;
+}
+
+.fieldGroup input:focus,
+.fieldGroup select:focus {
+  border-color: #4a6741;
+}
+
+/* Larguras  */
+.fieldCpf   { max-width: 155px; }
+.fieldNasc  { max-width: 120px; }
+.fieldFunc  { max-width: 130px; }
+.fieldAcesso { max-width: 115px; }
+.fieldTel   { max-width: 135px; }
+.fieldCep   { max-width: 115px; }
+.fieldUf    { max-width: 130px; }
+.fieldNum   { max-width: 80px; }
+.fieldDisp  { max-width: 115px; }
+
+/* PCD */
+.pcdCheck {
+  margin-bottom: 10px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.checkboxLabel input[type='checkbox'] {
+  width: 14px;
+  height: 14px;
+  accent-color: #4a6741;
+  cursor: pointer;
+}
+
+.pcdHint {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 4px;
+  margin-left: 20px;
+}
+
+/* Deficiência input + tags */
+.deficienciaWrapper {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 8px;
+}
+
+.deficienciaSearchInput {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #374151;
+  outline: none;
+  height: 32px;
+  font-family: inherit;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+}
+
+.deficienciaSearchInput::placeholder {
+  color: #9ca3af;
+}
+
+.deficienciaSearchInput:focus {
+  border-color: #4a6741;
+}
+
+/* Tags container  */
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 1px solid #4a6741;
+  border-radius: 6px;
+  background: #fff;
+  min-height: 38px;
+}
+
+.deficienciaLabel {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.deficienciaSearchInput {
+  order: 1;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #fff;
+  border: 1px solid #4a6741;
+  color: #2d3a2e;
+  border-radius: 20px;
+  padding: 2px 8px 2px 10px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.tagRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4a6741;
+  border: none;
+  border-radius: 50%;
+  width: 14px;
+  height: 14px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.tagRemove:hover {
+  background: #2d3a2e;
+}
+
+/* Upload foto */
+.fotoLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 4px;
+}
+
+.imageUploadLabel {
+  cursor: pointer;
+  display: block;
+}
+
+.imagePreviewContainer {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.imagePreview {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholderImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Text-area */
+.textareaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.textareaGroup label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.textareaGroup textarea {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #374151;
+  background: #ffffff;
+  resize: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.textareaGroup textarea:focus {
+  border-color: #4a6741;
+}
+
+/* Botons */
+.formActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.backButton {
+  background: transparent;
+  border: 1px solid #6b7280;
+  color: #6b7280;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 12px;
+  cursor: pointer;
+  height: 34px;
+  font-family: inherit;
+}
+
+.backButton:hover {
+  background: #f3f4f6;
+}
+
+.saveButton {
+  background: #2d3a2e;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  height: 34px;
+  font-family: inherit;
+}
+
+.saveButton:hover {
+  background: #4a6741;
+}
