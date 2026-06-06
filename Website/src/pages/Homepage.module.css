@@ -1,30 +1,78 @@
 .homeContainer {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   padding: 0;
+  background-color: #FFFFFF; 
 }
 
+.topSectionWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FEF4E8; 
+  padding-bottom: 50px;
+}
+
+/* --- CARROSSSEL --- */
 .bannerSection {
   width: 100%;
-  max-width: 100vw; 
-  background-color: #EFEBE4;
-  padding: 40px 0 0; 
+  max-width: none; 
+  padding-bottom: 20px;
+}
+
+.carouselContainer {
   position: relative;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  width: 100%;
+  border-radius: 0; 
   overflow: hidden; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-.bannerImage {
-  max-width: 100%;
-  width: auto;
-  height: auto;
+.carouselTrack {
+  display: flex;
+  width: 100%;
+  transition: transform 0.6s ease-in-out; 
+}
+
+.carouselImage {
+  flex: 0 0 100%; 
+  width: 100%;
+  height: auto; 
+  object-fit: contain;
   display: block;
-  margin: 0 auto; 
-  border-radius: 10px; 
 }
 
+.carouselDots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dot:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.activeDot {
+  background-color: #FFFFFF;
+  transform: scale(1.2);
+}
+
+/* --- CARDS MODERNOS --- */
 .cardsWrapper {
   display: flex;
   justify-content: center; 
@@ -36,70 +84,82 @@
   display: flex;
   gap: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1240px;
 }
 
 .card {
   flex: 1;
-  padding: 40px 20px;
-  border-radius: 10px;
-  text-align: center;
+  background-color: #FFFFFF;
+  padding: 25px 20px;
+  border-radius: 15px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; 
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-bottom: 10px;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.1);
 }
 
-.card h2 {
-  font-size: 1.8rem;
-  margin-bottom: 5px;
-  font-style: italic;
+/* Bordas coloridas no topo */
+.cardBorderOrange { border-top: 6px solid #F0A56C; }
+.cardBorderGreen { border-top: 6px solid #6BAA83; }
+.cardBorderBrown { border-top: 6px solid #BA9A7A; }
+
+.cardIcon {
+  width: 70px;
+  height: auto;
+  flex-shrink: 0;
 }
 
-.card p {
-  font-size: 1rem;
-  margin-bottom: 25px;
-  font-weight: bold;
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
-.cardOrange {
-  background-color: #F0A56C;
-  color: white;
+.cardContent h2 {
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+  font-weight: 800;
+  color: #1A1A1A;
 }
 
-.cardBeige {
-  background-color: #a56a26;
-  color: white; 
+.cardContent p {
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  color: #555;
+  font-weight: 500;
 }
 
-.cardBrown {
-  background-color: #3B2418;
-  color: white;
-}
-
-.btnGreen {
-  background-color: #7BB174;
-  color: white;
+/* Botões dos Cards (Pill shape) */
+.btn {
   text-decoration: none;
-  padding: 10px 30px;
-  border-radius: 8px;
+  padding: 8px 24px;
+  border-radius: 25px; 
   font-weight: bold;
-  transition: transform 0.2s, background-color 0.2s;
+  font-size: 0.9rem;
+  color: white;
+  transition: transform 0.2s, filter 0.2s;
   display: inline-block;
 }
 
-.btnGreen:hover {
-  background-color: #6a9c63;
+.btn:hover {
   transform: scale(1.05);
+  filter: brightness(0.9);
 }
 
+.btnOrange { background-color: #F0A56C; }
+.btnGreen { background-color: #6BAA83; }
+.btnBrown { background-color: #BA9A7A; }
+
+/* --- BAZAR --- */
 .bazarContainer {
   display: flex;
   justify-content: space-between;
@@ -160,11 +220,6 @@
   transform: scale(1.05);
 }
 
-.silhueta {
-  max-width: 250px;
-  margin-top: auto; 
-}
-
 .bazarImageContainer {
   flex: 1;
   border: 1px solid #3B2418; 
@@ -176,10 +231,9 @@
   background-color: transparent; 
   align-self: center;
   aspect-ratio: 1 / 1;
-  background-color: transparent;
 }
 
-.bazarLogo {
+.bazarImage {
   max-width: 100%;
   height: auto;
   background-color: transparent;
@@ -201,52 +255,58 @@
   display: block; 
 }
 
+/* --- RESPONSIVIDADE (MOBILE) --- */
 @media (max-width: 768px) {
   
-  /* 1. Ajustes do Banner */
   .bannerSection {
-    padding: 20px 0 0; /* Diminui o respiro no topo para telas menores */
+    padding: 20px 20px; 
+  }
+  
+  .carouselDots {
+    bottom: 10px; 
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
   }
 
-  /* 2. Empilhando os Cards */
   .cardsSection {
     flex-direction: column;
     align-items: center;
   }
-
+  
   .card {
-    width: 100%; /* Garante que os cards preencham a tela no celular */
-    max-width: 400px; /* Evita que fiquem gigantes em tablets */
+    width: 100%; 
+    max-width: 400px; 
   }
-
-  /* 3. Empilhando o Bazar (Texto em cima, Imagem embaixo) */
+  
   .bazarContainer {
     flex-direction: column;
     gap: 30px;
     padding: 30px 20px;
   }
-
-  /* 4. Centralizando os textos do Bazar no mobile */
+  
   .bazarTitle {
     font-size: 1.8rem;
     text-align: center;
   }
-
+  
   .bazarText {
     text-align: center;
     font-size: 1rem;
   }
-
+  
   .bazarActionRow {
     flex-direction: column;
     justify-content: center;
     gap: 15px;
   }
-
+  
   .silhuetaPets {
     max-width: 180px;
   }
-
+  
   .bazarImageContainer {
     width: 100%;
     max-width: 350px;
