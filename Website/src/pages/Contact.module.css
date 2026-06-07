@@ -43,17 +43,6 @@
   animation: subirFadeIn 0.5s ease forwards;
 }
 
-@keyframes subirFadeIn {
-  from {
-    opacity: 0.3;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* --- Cores das bordas para cada rede social --- */
 .instagram {
   border-top: 5px solid #e1306c;

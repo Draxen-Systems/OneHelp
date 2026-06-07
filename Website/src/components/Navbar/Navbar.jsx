@@ -31,7 +31,7 @@ const Navbar = () => {
           <NavLink to="/adote" onClick={toggleMenu}>
             Adote
           </NavLink>
-          <NavLink to="/novidades" onClick={toggleMenu}>
+          <NavLink to="/news" onClick={toggleMenu}>
             Novidades
           </NavLink>
           <NavLink to="/contact" onClick={toggleMenu}>

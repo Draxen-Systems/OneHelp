@@ -11,6 +11,10 @@ import Listanimals from "./pages/ListAnimals";
 import CadAdopter from "./pages/CadAdopter";
 import ListAdopter from "./pages/ListAdopter";
 
+// --- Voluntários ---
+import CadVoluntary from './pages/CadVoluntary';
+import ListVoluntary from './pages/ListVoluntary';
+
 const App = () => {
   return (
     <BrowserRouter>
@@ -26,6 +30,8 @@ const App = () => {
             <Route path="/listanimals"  element={<Listanimals />} />
             <Route path="/cadadopter"   element={<CadAdopter />} />
             <Route path="/listadopter"  element={<ListAdopter />} />
+            <Route path="/cadvoluntary"  element={<CadVoluntary />} />
+            <Route path="/listvoluntary"  element={<ListVoluntary />} />
           </Routes>
 
         </main>
