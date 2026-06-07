@@ -5,6 +5,7 @@ import "./App.css";
 
 // --- Telas Públicas ---
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 // --- Animais ---
 import Cadanimals from "./pages/Cadanimals";
@@ -42,6 +43,7 @@ const App = () => {
           <Route path="/listadopter" element={<ListAdopter />} />
           <Route path="/cadvoluntary" element={<CadVoluntary />} />
           <Route path="/listvoluntary" element={<ListVoluntary />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
     </BrowserRouter>
