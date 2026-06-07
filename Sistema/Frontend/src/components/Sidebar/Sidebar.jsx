@@ -194,7 +194,7 @@ const Sidebar = () => {
 
       {/* --- Rodapé: logout --- */}
       <div className={styles.logoutSection}>
-        <Link to="/login" className={styles.navLink}>
+        <Link to="/" className={styles.navLink}>
           <img src={sairLogo} alt="Sair" className={styles.navIcon} />
           <span className={styles.navText}>Sair</span>
         </Link>
