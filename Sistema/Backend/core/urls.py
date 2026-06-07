@@ -16,9 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework.routers import DefaultRouter
+from animais.views import EspecieViewSet, RacaViewSet, AnimalViewSet
+from adotantes.views import AdotanteViewSet, EnderecoViewSet
+
+# Unified API router to ensure all endpoints show up on the /api/ root page
+router = DefaultRouter()
+router.register(r'especies', EspecieViewSet)
+router.register(r'racas', RacaViewSet)
+router.register(r'animais', AnimalViewSet)
+router.register(r'adotantes', AdotanteViewSet)
+router.register(r'enderecos', EnderecoViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('funcionarios/', include('funcionarios.urls')), # Rota para o seu CRUD 
-    path('api/', include('animais.urls')),
+    path('api/', include(router.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

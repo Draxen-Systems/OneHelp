@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'funcionarios',
     'animais',
+    'adotantes',
 ]
 
 MIDDLEWARE = [
@@ -127,5 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Configuração de arquivos de mídia (Uploads de Fotos)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -25,3 +25,4 @@ Sistema/Backend/staticfiles/
 .idea/
 .DS_Store
 Thumbs.db
+Sistema/Backend/adotantes/tests.py

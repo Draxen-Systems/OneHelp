@@ -48,3 +48,25 @@ python manage.py runserver
 ✅ A API estará disponível em: `http://localhost:8000/api/`
 
 ---
+
+## 📌 Principais Endpoints da API
+
+### 🐾 Animais
+* **GET** `/api/animais/` - Lista todos os animais cadastrados
+* **POST** `/api/animais/` - Cadastra um novo animal
+* **GET** `/api/animais/{id}/` - Retorna os detalhes de um animal específico
+* **PUT** `/api/animais/{id}/` - Atualiza todos os dados de um animal
+* **DELETE** `/api/animais/{id}/` - Remove fisicamente um animal do banco
+
+### 🏠 Adotantes
+* **GET** `/api/adotantes/` - Lista todos os adotantes cadastrados (CPF e CEP formatados)
+* **POST** `/api/adotantes/` - Cadastra um adotante (cria o endereço aninhado automaticamente)
+* **GET** `/api/adotantes/{id}/` - Retorna os detalhes do adotante (inclui o endereço completo)
+* **PUT** `/api/adotantes/{id}/` - Atualiza os dados do adotante e do endereço associado
+* **DELETE** `/api/adotantes/{id}/` - Inativa o adotante no sistema (exclusão lógica / Soft Delete)
+
+### 📍 Endereços
+* **GET** `/api/enderecos/` - Lista todos os endereços cadastrados
+* **GET** `/api/enderecos/{id}/` - Detalhes de um endereço específico
+* **PUT** `/api/enderecos/{id}/` - Atualiza um endereço existente
+
