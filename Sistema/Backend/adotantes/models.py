@@ -6,7 +6,9 @@ class Endereco(models.Model):
     rua = models.CharField(max_length=255)
     bairro = models.CharField(max_length=100)
     uf = models.CharField(max_length=2)
-    cep = models.CharField(max_length=8)
+    cep = models.CharField(max_length=8)    
+    numero = models.CharField(max_length=10)
+
 
     def __str__(self):
         return f"{self.rua}, {self.bairro} - {self.uf}"

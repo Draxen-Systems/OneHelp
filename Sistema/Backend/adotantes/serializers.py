@@ -97,6 +97,7 @@ class AdotanteSerializer(serializers.ModelSerializer):
                 "bairro": data.pop("endereco.bairro", ""),
                 "uf": data.pop("endereco.uf", ""),
                 "cep": data.pop("endereco.cep", ""),
+                "numero": data.pop("endereco.numero", ""),
             }
 
         # RN04 - Remove máscara do CPF antes da validação.
