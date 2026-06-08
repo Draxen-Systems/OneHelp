@@ -8,30 +8,32 @@ import LogoMini from "../../assets/OneHelp_Branco_Dog.png";
 import Dashboardlogo from "../../assets/dashboard.png";
 import animaisLogo from "../../assets/paw.png";
 import clientesLogo from "../../assets/group.png";
-import funcionariosLogo from "../../assets/group (1).png";
+import funcionariosLogo from "../../assets/group (1).png"; 
 import novidadesLogo from "../../assets/news (2).png";
 import sairLogo from "../../assets/fire-exit.png";
 
 const Sidebar = () => {
-  // --- Estados: controle de abertura do sidebar e dropdowns ---
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false); 
   const [isAnimaisOpen, setIsAnimaisOpen] = useState(false);
   const [isClientesOpen, setIsClientesOpen] = useState(false);
+  const [isVoluntariosOpen, setIsVoluntariosOpen] = useState(false); 
   const location = useLocation();
 
-  // --- Handlers de toggle ---
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-    if (isOpen) {
-      setIsAnimaisOpen(false);
-      setIsClientesOpen(false);
-    }
+  const handleMouseEnter = () => {
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsOpen(false);
+    setIsAnimaisOpen(false);
+    setIsClientesOpen(false);
+    setIsVoluntariosOpen(false);
   };
 
   const toggleAnimaisDropdown = () => setIsAnimaisOpen(!isAnimaisOpen);
   const toggleClientesDropdown = () => setIsClientesOpen(!isClientesOpen);
+  const toggleVoluntariosDropdown = () => setIsVoluntariosOpen(!isVoluntariosOpen); 
 
-  // --- Helpers de estado ativo para links ---
   const checkActive = (path) =>
     location.pathname === path ? styles.active : "";
 
@@ -43,8 +45,11 @@ const Sidebar = () => {
       : "";
 
   return (
-    <aside className={`${styles.sidebar} ${!isOpen ? styles.collapsed : ""}`}>
-      {/* --- Cabeçalho: logo + botão de colapso --- */}
+    <aside 
+      className={`${styles.sidebar} ${!isOpen ? styles.collapsed : ""}`}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className={styles.sidebarHeader}>
         <div className={styles.logoContainer}>
           {isOpen ? (
@@ -61,9 +66,6 @@ const Sidebar = () => {
             />
           )}
         </div>
-        <button className={styles.menuBtn} onClick={toggleSidebar}>
-          <div>☰</div>
-        </button>
       </div>
 
       {/* --- Navegação principal --- */}
@@ -163,18 +165,41 @@ const Sidebar = () => {
           )}
         </li>
 
-        {/* --- Funcionários --- */}
+        {/* --- Voluntários (dropdown) --- */}
         <li className={styles.navItem}>
-          <Link
-            to="/funcionarios"
-            className={`${styles.navLink} ${checkActive("/funcionarios")}`}>
-            <img
-              src={funcionariosLogo}
-              alt="Funcionários"
-              className={styles.navIcon}
-            />
-            <span className={styles.navText}>Funcionários</span>
-          </Link>
+          <div
+            className={`${styles.navLink} ${checkActiveParent(["/voluntarios", "/cadvoluntary", "/listvoluntary"])}`}
+            onClick={toggleVoluntariosDropdown}
+            style={{ cursor: "pointer" }}>
+            <img src={funcionariosLogo} alt="Voluntários" className={styles.navIcon} />
+            <span className={styles.navText}>Voluntários</span>
+            {isOpen && (
+              <span
+                className={`${styles.arrowIcon} ${isVoluntariosOpen ? styles.arrowOpen : ""}`}>
+                ∨
+              </span>
+            )}
+          </div>
+
+          {isOpen && (
+            <ul
+              className={`${styles.dropdownList} ${isVoluntariosOpen ? styles.dropdownOpen : ""}`}>
+              <li className={styles.dropdownItem}>
+                <Link
+                  to="/cadvoluntary"
+                  className={`${styles.dropdownLink} ${checkActive("/cadvoluntary")}`}>
+                  - Cadastrar Voluntário
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link
+                  to="/listvoluntary"
+                  className={`${styles.dropdownLink} ${checkActive("/listvoluntary")}`}>
+                  - Listar Voluntários
+                </Link>
+              </li>
+            </ul>
+          )}
         </li>
 
         {/* --- Novidades --- */}
@@ -194,7 +219,7 @@ const Sidebar = () => {
 
       {/* --- Rodapé: logout --- */}
       <div className={styles.logoutSection}>
-        <Link to="/login" className={styles.navLink}>
+        <Link to="/" className={styles.navLink}>
           <img src={sairLogo} alt="Sair" className={styles.navIcon} />
           <span className={styles.navText}>Sair</span>
         </Link>

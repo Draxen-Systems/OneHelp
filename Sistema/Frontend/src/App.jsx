@@ -1,7 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Header from "./components/Perfiladm/Header";
 import "./App.css";
+
+// --- Telas Públicas ---
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
 
 // --- Animais ---
 import Cadanimals from "./pages/Cadanimals";
@@ -15,27 +19,33 @@ import ListAdopter from "./pages/ListAdopter";
 import CadVoluntary from './pages/CadVoluntary';
 import ListVoluntary from './pages/ListVoluntary';
 
+const DashboardLayout = () => {
+  return (
+    <div className="App">
+      <Sidebar />
+      <main className="main-content">
+        <Header />
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+
 const App = () => {
   return (
     <BrowserRouter>
-      <div className="App">
-
-        <Sidebar />
-        <main className="main-content">
-          <Header />
-
-          {/* --- Redirecionamentos --- */}
-          <Routes>
-            <Route path="/cadanimals"   element={<Cadanimals />} />
-            <Route path="/listanimals"  element={<Listanimals />} />
-            <Route path="/cadadopter"   element={<CadAdopter />} />
-            <Route path="/listadopter"  element={<ListAdopter />} />
-            <Route path="/cadvoluntary"  element={<CadVoluntary />} />
-            <Route path="/listvoluntary"  element={<ListVoluntary />} />
-          </Routes>
-
-        </main>
-      </div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route element={<DashboardLayout />}>
+          <Route path="/cadanimals" element={<Cadanimals />} />
+          <Route path="/listanimals" element={<Listanimals />} />
+          <Route path="/cadadopter" element={<CadAdopter />} />
+          <Route path="/listadopter" element={<ListAdopter />} />
+          <Route path="/cadvoluntary" element={<CadVoluntary />} />
+          <Route path="/listvoluntary" element={<ListVoluntary />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };
