@@ -25,8 +25,12 @@ Sistema/Backend/staticfiles/
 .idea/
 .DS_Store
 Thumbs.db
-Sistema/Backend/adotantes/tests.py
 
 # --- Dependências do Node ---
 node_modules/
 package-lock.json
+
+# --- Coverage ---
+.coverage
+htmlcov/
+
