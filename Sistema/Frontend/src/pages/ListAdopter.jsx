@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Pencil, Trash2, Plus, Search } from "lucide-react";
+import { Pencil, Trash2, Plus, Search, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { TIPO_RESIDENCIA_CODE_TO_LABEL, API_BASE_URL } from "../constants";
 import styles from "./ListAdopter.module.css";
 
-const API_URL = "http://localhost:3001/clientes";
+const API_URL = `${API_BASE_URL}/api/adotantes/`;
+
+const apenasNumeros = (str) => str ? str.replace(/\D/g, "") : "";
 
 const ListAdopter = () => {
-  const [clientes, setClientes] = useState([]);
+  const [adotantes, setAdotantes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
+  const [sucesso, setSucesso] = useState(null);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const navigate = useNavigate();
 
@@ -22,18 +26,20 @@ const ListAdopter = () => {
     },
   });
 
-  const filtros = watch();
+  const busca = watch("busca") || "";
+  const tipoResidencia = watch("tipo_residencia") || "todas";
+  const uf = watch("uf") || "todas";
+  const statusFilter = watch("status") || "todos";
 
-  // --- Buscar Clientes da API ---
   useEffect(() => {
-    const fetchClientes = async () => {
+    const fetchAdotantes = async () => {
       try {
         setLoading(true);
         setErro(null);
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Erro ao buscar clientes.");
+        if (!response.ok) throw new Error("Erro ao buscar adotantes.");
         const data = await response.json();
-        setClientes(data);
+        setAdotantes(data);
       } catch (err) {
         setErro(err.message);
       } finally {
@@ -41,79 +47,105 @@ const ListAdopter = () => {
       }
     };
 
-    fetchClientes();
+    fetchAdotantes();
   }, []);
 
-  // --- Remover Acentos ---
-  const removerAcentos = (str) => {
-    return str
-      ? str
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()
+  useEffect(() => {
+    if (!sucesso) return;
+    const timer = setTimeout(() => setSucesso(null), 3000);
+    return () => clearTimeout(timer);
+  }, [sucesso]);
+
+  const removerAcentos = (str) =>
+    str
+      ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
       : "";
+
+  const formatarData = (dataStr) => {
+    if (!dataStr) return "";
+    const partes = dataStr.split("-");
+    if (partes.length === 3) {
+      const [ano, mes, dia] = partes;
+      return `${dia}/${mes}/${ano}`;
+    }
+    return dataStr;
   };
 
-  // --- Lógica de Filtros ---
-  const clientesFiltrados = clientes.filter((cliente) => {
-    const buscaLimpa = removerAcentos(filtros.busca);
-    const nomeLimpo = removerAcentos(cliente.nome_cliente);
-    const cpfLimpo = removerAcentos(cliente.cpf);
+  // UFs extraídas dinamicamente dos dados carregados
+  const ufsDisponiveis = [...new Set(
+    adotantes.map((a) => a.endereco?.uf).filter(Boolean)
+  )].sort();
 
-    // Busca unificada por ID, Nome ou CPF
+  const adotantesFiltrados = adotantes.filter((adotante) => {
+    const buscaLimpa = removerAcentos(busca);
+    const buscaNumerica = apenasNumeros(busca);
+
+    const nomeLimpo = removerAcentos(adotante.nome);
+    const cpfNumerico = apenasNumeros(adotante.cpf);
+
     const buscaOk =
       !buscaLimpa ||
       nomeLimpo.includes(buscaLimpa) ||
-      cpfLimpo.includes(buscaLimpa) ||
-      String(cliente.id).includes(buscaLimpa);
+      (buscaNumerica && cpfNumerico.includes(buscaNumerica)) ||
+      String(adotante.id).includes(buscaLimpa);
 
     const residenciaOk =
-      filtros.tipo_residencia === "todas" ||
-      removerAcentos(cliente.tipo_residencia) ===
-        removerAcentos(filtros.tipo_residencia);
+      tipoResidencia === "todas" ||
+      adotante.tipo_residencia === tipoResidencia;
 
     const ufOk =
-      filtros.uf === "todas" ||
-      removerAcentos(cliente.uf) === removerAcentos(filtros.uf);
+      uf === "todas" ||
+      adotante.endereco?.uf === uf;
 
     const statusOk =
-      filtros.status === "todos" ||
-      removerAcentos(cliente.status) === removerAcentos(filtros.status);
+      statusFilter === "todos" ||
+      removerAcentos(adotante.status) === removerAcentos(statusFilter);
 
     return buscaOk && residenciaOk && ufOk && statusOk;
   });
 
-  // --- Configuração da Paginação ---
   const itensPorPagina = 10;
-  const totalPaginas = Math.ceil(clientesFiltrados.length / itensPorPagina);
-  const clientesPagina = clientesFiltrados.slice(
+  const totalPaginas = Math.ceil(adotantesFiltrados.length / itensPorPagina);
+  const adotantesPagina = adotantesFiltrados.slice(
     (paginaAtual - 1) * itensPorPagina,
     paginaAtual * itensPorPagina,
   );
 
-  // --- Excluir Cliente ---
+  // RN09: Exclusão lógica
   const handleDelete = async (id) => {
-    if (!window.confirm("Deseja realmente excluir este cliente?")) return;
+    if (!window.confirm("Deseja realmente inativar este cliente?")) return;
     try {
-      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-      setClientes((prev) => prev.filter((c) => c.id !== id));
+      const response = await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Erro ao inativar cliente.");
+
+      setAdotantes((prev) =>
+        prev.map((a) => (a.id === id ? { ...a, status: "INATIVO" } : a))
+      );
+      setSucesso("Cliente inativado com sucesso.");
     } catch {
-      alert("Erro ao excluir cliente.");
+      setErro("Erro ao inativar cliente.");
     }
+  };
+
+  const montarUrlFoto = (foto) => {
+    if (!foto) return null;
+    if (foto.startsWith("http")) return foto;
+    return `${API_BASE_URL}${foto}`;
   };
 
   return (
     <div className={styles.containerPrincipal}>
       <div className={styles.wrapperClientes}>
-        {/* --- Header --- */}
         <header className={styles.titleWrapper}>
           <h1>Lista de Clientes</h1>
-          <button className={styles.btnCadastrar} onClick={() => navigate("/")}>
+          <button
+            className={styles.btnCadastrar}
+            onClick={() => navigate("/cadadopter")}
+          >
             Cadastrar Novo Cliente <Plus size={18} />
           </button>
         </header>
 
-        {/* --- Filtros --- */}
         <section className={styles.filtersWrapper}>
           <div className={styles.filterGroup}>
             <label>ID, Nome ou CPF</label>
@@ -132,9 +164,10 @@ const ListAdopter = () => {
             <label>Tipo de Residência</label>
             <select {...register("tipo_residencia")}>
               <option value="todas">Todas</option>
-              <option value="casa">Casa</option>
-              <option value="apartamento">Apartamento</option>
-              <option value="outro">Outro</option>
+              <option value="C">Casa</option>
+              <option value="A">Apartamento</option>
+              <option value="CH">Chácara</option>
+              <option value="O">Outro</option>
             </select>
           </div>
 
@@ -142,9 +175,11 @@ const ListAdopter = () => {
             <label>UF</label>
             <select {...register("uf")}>
               <option value="todas">Todas</option>
-              <option value="sp">SP</option>
-              <option value="mg">MG</option>
-              <option value="rj">RJ</option>
+              {ufsDisponiveis.map((uf) => (
+                <option key={uf} value={uf}>
+                  {uf}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -158,11 +193,10 @@ const ListAdopter = () => {
           </div>
         </section>
 
-        {/* --- Feedback Visual --- */}
+        {sucesso && <p className={styles.feedback} style={{ color: "#2e7d32" }}>{sucesso}</p>}
         {loading && <p className={styles.feedback}>A carregar clientes...</p>}
         {erro && <p className={styles.feedbackErro}>{erro}</p>}
 
-        {/* --- Tabela --- */}
         {!loading && !erro && (
           <div className={styles.tableScroll}>
             <table className={styles.clientesTable}>
@@ -179,53 +213,67 @@ const ListAdopter = () => {
                 </tr>
               </thead>
               <tbody>
-                {clientesPagina.length === 0 ? (
+                {adotantesPagina.length === 0 ? (
                   <tr>
                     <td colSpan={8} className={styles.semResultados}>
                       Nenhum cliente encontrado.
                     </td>
                   </tr>
                 ) : (
-                  clientesPagina.map((cliente) => (
-                    <tr key={cliente.id}>
-                      <td>{cliente.id}</td>
+                  adotantesPagina.map((adotante) => (
+                    <tr key={adotante.id}>
+                      <td>{adotante.id}</td>
                       <td>
-                        <img
-                          className={styles.clientePhoto}
-                          src={
-                            cliente.foto_cliente ||
-                            "https://via.placeholder.com/44"
-                          }
-                          alt={cliente.nome_cliente}
-                        />
+                        {adotante.foto ? (
+                          <img
+                            className={styles.clientePhoto}
+                            src={montarUrlFoto(adotante.foto)}
+                            alt={adotante.nome}
+                          />
+                        ) : (
+                          <UserCircle2
+                            size={44}
+                            color="#314d41"
+                            strokeWidth={1.2}
+                          />
+                        )}
                       </td>
-                      <td>{cliente.nome_cliente}</td>
-                      <td style={{ textTransform: "capitalize" }}>
-                        {cliente.tipo_residencia}
+                      <td>{adotante.nome}</td>
+                      <td>
+                        {TIPO_RESIDENCIA_CODE_TO_LABEL[adotante.tipo_residencia] ||
+                          adotante.tipo_residencia}
                       </td>
-                      <td>{cliente.uf}</td>
-                      <td>{cliente.data_nascimento}</td>
+                      <td>{adotante.endereco?.uf}</td>
+                      <td>{formatarData(adotante.nascimento)}</td>
                       <td>
                         <span
                           className={
-                            cliente.status.toLowerCase() === "ativo"
+                            adotante.status?.toUpperCase() === "ATIVO"
                               ? styles.badgeAtivo
                               : styles.badgeInativo
-                          }>
-                          {cliente.status}
+                          }
+                        >
+                          {adotante.status?.toUpperCase() === "ATIVO"
+                            ? "Ativo"
+                            : "Inativo"}
                         </span>
                       </td>
                       <td>
                         <div className={styles.actionButtons}>
                           <button
                             className={styles.btnEdit}
-                            aria-label="Editar">
+                            aria-label="Editar"
+                            onClick={() =>
+                              navigate(`/cadadopter/${adotante.id}`)
+                            }
+                          >
                             <Pencil size={16} />
                           </button>
                           <button
                             className={styles.btnDelete}
                             aria-label="Excluir"
-                            onClick={() => handleDelete(cliente.id)}>
+                            onClick={() => handleDelete(adotante.id)}
+                          >
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -238,13 +286,13 @@ const ListAdopter = () => {
           </div>
         )}
 
-        {/* --- Paginação --- */}
         {!loading && !erro && totalPaginas > 1 && (
           <footer className={styles.pagination}>
             <button
               className={styles.navBtn}
               onClick={() => setPaginaAtual((p) => Math.max(p - 1, 1))}
-              disabled={paginaAtual === 1}>
+              disabled={paginaAtual === 1}
+            >
               &lt; Anterior
             </button>
 
@@ -257,7 +305,8 @@ const ListAdopter = () => {
                       ? styles.pageItemActive
                       : styles.pageItem
                   }
-                  onClick={() => setPaginaAtual(num)}>
+                  onClick={() => setPaginaAtual(num)}
+                >
                   {num}
                 </span>
               ),
@@ -268,7 +317,8 @@ const ListAdopter = () => {
               onClick={() =>
                 setPaginaAtual((p) => Math.min(p + 1, totalPaginas))
               }
-              disabled={paginaAtual === totalPaginas}>
+              disabled={paginaAtual === totalPaginas}
+            >
               Próximo &gt;
             </button>
           </footer>
