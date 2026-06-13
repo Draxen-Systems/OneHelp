@@ -40,6 +40,7 @@ const App = () => {
           <Route path="/cadanimals" element={<Cadanimals />} />
           <Route path="/listanimals" element={<Listanimals />} />
           <Route path="/cadadopter" element={<CadAdopter />} />
+          <Route path="/cadadopter/:id" element={<CadAdopter />} />
           <Route path="/listadopter" element={<ListAdopter />} />
           <Route path="/cadvoluntary" element={<CadVoluntary />} />
           <Route path="/listvoluntary" element={<ListVoluntary />} />

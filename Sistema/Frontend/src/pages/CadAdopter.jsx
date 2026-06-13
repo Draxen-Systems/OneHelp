@@ -1,12 +1,25 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Upload } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  TIPO_RESIDENCIA_LABEL_TO_CODE,
+  TIPO_RESIDENCIA_CODE_TO_LABEL,
+  API_BASE_URL,
+} from "../constants";
 import styles from "./CadAdopter.module.css";
 
-const CadAdopter = () => {
-  const [previewImage, setPreviewImage] = useState(null);
+const API_URL = `${API_BASE_URL}/api/adotantes/`;
 
-  const { register, handleSubmit, watch, setValue } = useForm({
+const CadAdopter = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditing = Boolean(id);
+
+  const [previewImage, setPreviewImage] = useState(null);
+  const [erroApi, setErroApi] = useState(null);
+
+  const { register, handleSubmit, watch, setValue, reset } = useForm({
     defaultValues: {
       nome: "",
       cpf: "",
@@ -23,12 +36,66 @@ const CadAdopter = () => {
       uf: "",
       numero: "",
       observacoes: "",
+      status: true,
     },
   });
 
+  // Carrega dados do adotante em modo edição
+  useEffect(() => {
+    if (!id) return;
+
+    const carregarAdotante = async () => {
+      try {
+        const response = await fetch(`${API_URL}${id}/`);
+        if (!response.ok) throw new Error("Erro ao carregar adotante.");
+        const dados = await response.json();
+
+        // Converte nascimento YYYY-MM-DD → DD/MM/AAAA
+        let nascimentoFormatado = dados.nascimento || "";
+        if (nascimentoFormatado.includes("-")) {
+          const [ano, mes, dia] = nascimentoFormatado.split("-");
+          nascimentoFormatado = `${dia}/${mes}/${ano}`;
+        }
+
+        const tipoLabel =
+          TIPO_RESIDENCIA_CODE_TO_LABEL[dados.tipo_residencia] || "Casa";
+
+        reset({
+          nome: dados.nome || "",
+          cpf: dados.cpf || "",
+          nascimento: nascimentoFormatado,
+          email: dados.email || "",
+          pessoasFamilia: dados.pessoas || 0,
+          tipoResidencia: tipoLabel,
+          telefone: dados.telefone || "",
+          pcd: dados.deficiencias?.length > 0,
+          deficiencia: dados.deficiencias?.[0] || "",
+          cep: dados.endereco?.cep || "",
+          endereco: dados.endereco?.rua || "",
+          bairro: dados.endereco?.bairro || "",
+          uf: dados.endereco?.uf || "",
+          numero: dados.endereco?.numero || "",
+          observacoes: dados.observacoes || "",
+          status: dados.status?.toUpperCase() === "ATIVO",
+        });
+
+        if (dados.foto) {
+          const urlFoto = dados.foto.startsWith("http")
+            ? dados.foto
+            : `${API_BASE_URL}${dados.foto}`;
+          setPreviewImage(urlFoto);
+        }
+      } catch (err) {
+        setErroApi(err.message);
+      }
+    };
+
+    carregarAdotante();
+  }, [id, reset]);
+
   useEffect(() => {
     return () => {
-      if (previewImage) {
+      if (previewImage && previewImage.startsWith("blob:")) {
         URL.revokeObjectURL(previewImage);
       }
     };
@@ -67,6 +134,7 @@ const CadAdopter = () => {
   };
 
   const onSubmit = async (data) => {
+    setErroApi(null);
     const formData = new FormData();
 
     formData.append("nome", data.nome);
@@ -77,24 +145,17 @@ const CadAdopter = () => {
 
     formData.append("pessoas", Number(data.pessoasFamilia));
 
-    const tipoResidenciaMap = {
-      Casa: "C",
-      Apartamento: "A",
-      Chácara: "CH",
-    };
-
-    formData.append("tipo_residencia", tipoResidenciaMap[data.tipoResidencia]);
+    formData.append(
+      "tipo_residencia",
+      TIPO_RESIDENCIA_LABEL_TO_CODE[data.tipoResidencia] || "C",
+    );
 
     formData.append("observacoes", data.observacoes || "");
 
     formData.append("endereco.rua", data.endereco);
-
     formData.append("endereco.bairro", data.bairro);
-
     formData.append("endereco.uf", data.uf);
-
     formData.append("endereco.numero", data.numero);
-
     formData.append("endereco.cep", data.cep);
 
     if (data.pcd && data.deficiencia) {
@@ -104,24 +165,41 @@ const CadAdopter = () => {
     if (data.foto?.[0]) {
       formData.append("foto", data.foto[0]);
     }
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/adotantes/", {
-        method: "POST",
-        body: formData,
-      });
 
+    if (isEditing) {
+      formData.append("status", data.status ? "ATIVO" : "INATIVO");
+    }
+
+    try {
+      const url = isEditing ? `${API_URL}${id}/` : API_URL;
+      const method = isEditing ? "PATCH" : "POST";
+
+      const response = await fetch(url, { method, body: formData });
       const resultado = await response.json();
 
-      console.log(resultado);
+      if (!response.ok) {
+        const mensagens = Object.entries(resultado)
+          .map(([campo, erros]) => `${campo}: ${[].concat(erros).join(", ")}`)
+          .join("\n");
+        setErroApi(mensagens);
+        return;
+      }
+
+      navigate("/listadopter");
     } catch (error) {
-      console.error(error);
+      setErroApi("Erro de conexão com o servidor.");
     }
   };
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Cadastro de Clientes</h1>
+      <h1 className={styles.title}>
+        {isEditing ? "Edição de Cliente" : "Cadastro de Clientes"}
+      </h1>
 
       <form className={styles.card} onSubmit={handleSubmit(onSubmit)}>
+        {erroApi && <p className={styles.feedbackErro}>{erroApi}</p>}
+
         <div className={styles.topContent}>
           <section className={styles.formSection}>
             <div className={styles.row}>
@@ -157,7 +235,11 @@ const CadAdopter = () => {
             <div className={styles.row}>
               <div className={styles.fieldGroup}>
                 <label>Pessoas na Família</label>
-                <input type="number" min="0" {...register("pessoasFamilia")} />
+                <input
+                  type="number"
+                  min="0"
+                  {...register("pessoasFamilia")}
+                />
               </div>
               <div className={styles.fieldGroup}>
                 <label>Tipo de Residência</label>
@@ -165,6 +247,7 @@ const CadAdopter = () => {
                   <option value="Casa">Casa</option>
                   <option value="Apartamento">Apartamento</option>
                   <option value="Chácara">Chácara</option>
+                  <option value="Outro">Outro</option>
                 </select>
               </div>
               <div className={styles.fieldGroup}>
@@ -176,6 +259,14 @@ const CadAdopter = () => {
                 />
               </div>
             </div>
+
+            {isEditing && (
+              <div className={styles.row}>
+                <label className={styles.checkboxLabel}>
+                  <input type="checkbox" {...register("status")} /> Adotante ativo
+                </label>
+              </div>
+            )}
 
             <hr className={styles.divider} />
 
@@ -254,7 +345,7 @@ const CadAdopter = () => {
                   fotoRegister.onChange(e);
                   const file = e.target.files[0];
                   if (file) {
-                    if (previewImage) {
+                    if (previewImage && previewImage.startsWith("blob:")) {
                       URL.revokeObjectURL(previewImage);
                     }
                     setPreviewImage(URL.createObjectURL(file));
@@ -271,11 +362,15 @@ const CadAdopter = () => {
         </div>
 
         <div className={styles.formActions}>
-          <button type="button" className={styles.backButton}>
+          <button
+            type="button"
+            className={styles.backButton}
+            onClick={() => navigate("/listadopter")}
+          >
             Voltar para a Lista
           </button>
           <button type="submit" className={styles.saveButton}>
-            Salvar
+            {isEditing ? "Salvar Alterações" : "Salvar"}
           </button>
         </div>
       </form>

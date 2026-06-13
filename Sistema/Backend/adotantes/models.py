@@ -19,6 +19,7 @@ class Adotante(models.Model):
         ("C", "Casa"),
         ("A", "Apartamento"),
         ("CH", "Chácara"),
+        ("O", "Outro"),
     ]
 
 
@@ -45,6 +46,7 @@ class Adotante(models.Model):
         # RN10: Exclusão Lógica
         self.status = "INATIVO"
         self.save()
+        return (1, {f"{self._meta.label}": 1})
 
     def __str__(self):
         return self.nome

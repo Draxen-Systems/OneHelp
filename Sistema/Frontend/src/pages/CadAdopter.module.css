@@ -236,3 +236,19 @@ input[type="checkbox"] {
 .saveButton:hover {
   background-color: #243a31;
 }
+
+.feedbackSucesso {
+  text-align: center;
+  color: #2e7d32;
+  font-size: 1rem;
+  padding: 10px 0;
+  font-weight: 600;
+}
+
+.feedbackErro {
+  text-align: center;
+  color: #a32a2a;
+  font-size: 1rem;
+  padding: 10px 0;
+  font-weight: 600;
+}
