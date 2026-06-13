@@ -83,10 +83,15 @@ class AdotanteSerializer(serializers.ModelSerializer):
             if not deficiencias_lista:
                 deficiencias_lista = data.getlist("deficiencias[]")
 
+        arquivo_foto = None
         if hasattr(data, "dict"):
+            arquivo_foto = data.get("foto") if hasattr(data.get("foto", None), "read") else None
             data = data.dict()
         else:
             data = dict(data)
+
+        if arquivo_foto is not None:
+            data["foto"] = arquivo_foto
 
         if deficiencias_lista is not None:
             data["deficiencias"] = deficiencias_lista
