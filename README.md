@@ -1,5 +1,5 @@
 # <div style="text-align: center;">Gestão de ONGs e Adoção de Animais<div>
-<img src="img/OneHelp_Branco.png" alt="Num sabo"> 
+<img src="Img/OneHelp_Branco.png" alt="Imagem não encontrada"> 
 
 ---
 
