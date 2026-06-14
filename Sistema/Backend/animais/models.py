@@ -23,13 +23,13 @@ class Animal(models.Model):
     porte = models.CharField(max_length=1, choices=PORTE_CHOICES)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Disponivel')
     
-    data_resgate = models.DateField(null=True, blank=True)
+    data_resgate = models.DateField()
     castrado = models.BooleanField(default=False)
     ativo = models.BooleanField(default=True)
     
     observacao = models.TextField(blank=True, null=True)
-    historia = models.TextField(blank=True, null=True)
-    foto = models.ImageField(upload_to='fotos_animais/', null=True, blank=True)
+    historia = models.TextField() 
+    foto = models.ImageField(upload_to='fotos_animais/')
 
     especie = models.ForeignKey(Especie, on_delete=models.PROTECT, related_name="animais")
     raca = models.ForeignKey(Raca, on_delete=models.PROTECT, related_name="animais")
