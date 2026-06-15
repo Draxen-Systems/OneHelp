@@ -56,7 +56,8 @@ python manage.py runserver
 * **POST** `/api/animais/` - Cadastra um novo animal
 * **GET** `/api/animais/{id}/` - Retorna os detalhes de um animal específico
 * **PUT** `/api/animais/{id}/` - Atualiza todos os dados de um animal
-* **DELETE** `/api/animais/{id}/` - Remove fisicamente um animal do banco
+* **DELETE** `/api/animais/{id}/` - Torna o animal como inativo (exclusão lógica / Soft Delete)
+
 
 ### 🏠 Adotantes
 * **GET** `/api/adotantes/` - Lista todos os adotantes cadastrados (CPF e CEP formatados)
@@ -69,4 +70,11 @@ python manage.py runserver
 * **GET** `/api/enderecos/` - Lista todos os endereços cadastrados
 * **GET** `/api/enderecos/{id}/` - Detalhes de um endereço específico
 * **PUT** `/api/enderecos/{id}/` - Atualiza um endereço existente
+
+### 🧑‍💼 Voluntarios
+* **GET** `/api/voluntarios/` - Lista todos os voluntarios cadastrados
+* **POST** `/api/voluntarios/` - Cadastra um novo voluntario
+* **GET** `/api/voluntarios/{id}/` - Retorna os detalhes de um voluntario específico
+* **PUT** `/api/voluntarios/{id}/` - Atualiza todos os dados de um voluntario
+* **DELETE** `/api/voluntarios/{id}/` - Torna o voluntario como inativo (exclusão lógica / Soft Delete)
 
