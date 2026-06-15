@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from animais.views import EspecieViewSet, RacaViewSet, AnimalViewSet
 from adotantes.views import AdotanteViewSet, EnderecoViewSet
+from voluntarios.views import VoluntarioViewSet 
 
 # Unified API router to ensure all endpoints show up on the /api/ root page
 router = DefaultRouter()
@@ -29,10 +30,11 @@ router.register(r'racas', RacaViewSet)
 router.register(r'animais', AnimalViewSet)
 router.register(r'adotantes', AdotanteViewSet)
 router.register(r'enderecos', EnderecoViewSet)
+router.register(r'voluntarios', VoluntarioViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('funcionarios/', include('funcionarios.urls')), # Rota para o seu CRUD 
     path('api/', include(router.urls)),
 ]
 
