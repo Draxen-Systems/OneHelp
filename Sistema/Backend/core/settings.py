@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'core',
     'corsheaders',
     'rest_framework',
-    'funcionarios',
     'animais',
     'adotantes',
+    'voluntarios',
 ]
 
 MIDDLEWARE = [
