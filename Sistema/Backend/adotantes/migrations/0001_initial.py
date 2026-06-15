@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('bairro', models.CharField(max_length=100)),
                 ('uf', models.CharField(max_length=2)),
                 ('cep', models.CharField(max_length=8)),
+                ('numero', models.CharField(max_length=10)),
             ],
         ),
         migrations.CreateModel(
@@ -34,7 +35,7 @@ class Migration(migrations.Migration):
                 ('nascimento', models.DateField()),
                 ('pessoas', models.IntegerField()),
                 ('foto', models.ImageField(blank=True, null=True, upload_to='adotantes/')),
-                ('tipo_residencia', models.CharField(choices=[('C', 'Casa'), ('A', 'Apartamento'), ('CH', 'Chácara')], max_length=2)),
+                ('tipo_residencia', models.CharField(choices=[('C', 'Casa'), ('A', 'Apartamento'), ('CH', 'Chácara'), ('O', 'Outro')], max_length=2)),
                 ('observacoes', models.TextField(blank=True, null=True)),
                 ('status', models.CharField(choices=[('ATIVO', 'Ativo'), ('INATIVO', 'Inativo')], default='ATIVO', max_length=20)),
                 ('deficiencias', models.ManyToManyField(blank=True, related_name='adotantes', to='core.deficiencia')),
