@@ -15,3 +15,6 @@ class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Animal
         fields = '__all__'
+        extra_kwargs = {
+            "foto": {"required": False},
+        }
