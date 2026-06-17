@@ -1,30 +1,9 @@
-import re
 from datetime import datetime
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from .models import Adotante, Endereco
 from core.models import Deficiencia
-
-
-def apenas_numeros(valor):
-    # Remove caracteres não numéricos.
-    return re.sub(r"\D", "", str(valor))
-
-
-def verificar_calculo_cpf(cpf: str) -> bool:
-    # RN02 - Validação matemática do CPF.
-    cpf = apenas_numeros(cpf)
-
-    if len(cpf) != 11 or cpf == cpf[0] * 11:
-        return False
-
-    for posicao in range(9, 11):
-        soma = sum(int(cpf[i]) * (posicao + 1 - i) for i in range(posicao))
-        resto = (soma * 10) % 11
-
-        if (0 if resto == 10 else resto) != int(cpf[posicao]):
-            return False
-
-    return True
+from .utils import apenas_numeros, verificar_calculo_cpf
 
 
 class EnderecoSerializer(serializers.ModelSerializer):
@@ -71,10 +50,30 @@ class AdotanteSerializer(serializers.ModelSerializer):
         model = Adotante
         fields = "__all__"
 
-        extra_kwargs = {"cpf": {"validators": []}, "email": {"validators": []}}
+        extra_kwargs = {
+            "cpf": {"validators": []},
+            "email": {
+                # RN12 - Retorna mensagem amigável para e-mail duplicado tanto na criação quanto na atualização.
+                "validators": [
+                    UniqueValidator(
+                        queryset=Adotante.objects.all(),
+                        message="Já existe um adotante cadastrado com este e-mail.",
+                    )
+                ]
+            },
+        }
 
     def to_internal_value(self, data):
         # Normaliza CPF, endereço, data e arquivos recebidos pela API.
+        data = self._extrair_deficiencias(data)
+        data = self._extrair_foto(data)
+        data = self._achatar_endereco(data)
+        data = self._limpar_cpf(data)
+        data = self._remover_foto_vazia(data)
+        data = self._converter_nascimento(data)
+        return super().to_internal_value(data)
+
+    def _extrair_deficiencias(self, data):
         deficiencias_lista = None
 
         if hasattr(data, "getlist"):
@@ -83,9 +82,16 @@ class AdotanteSerializer(serializers.ModelSerializer):
             if not deficiencias_lista:
                 deficiencias_lista = data.getlist("deficiencias[]")
 
+        self._deficiencias_lista = deficiencias_lista
+
+        return data
+
+    def _extrair_foto(self, data):
         arquivo_foto = None
         if hasattr(data, "dict"):
-            arquivo_foto = data.get("foto") if hasattr(data.get("foto", None), "read") else None
+            arquivo_foto = (
+                data.get("foto") if hasattr(data.get("foto", None), "read") else None
+            )
             data = data.dict()
         else:
             data = dict(data)
@@ -93,9 +99,12 @@ class AdotanteSerializer(serializers.ModelSerializer):
         if arquivo_foto is not None:
             data["foto"] = arquivo_foto
 
-        if deficiencias_lista is not None:
-            data["deficiencias"] = deficiencias_lista
+        if self._deficiencias_lista is not None:
+            data["deficiencias"] = self._deficiencias_lista
 
+        return data
+
+    def _achatar_endereco(self, data):
         if "endereco.rua" in data or "endereco.cep" in data:
             data["endereco"] = {
                 "rua": data.pop("endereco.rua", ""),
@@ -105,13 +114,22 @@ class AdotanteSerializer(serializers.ModelSerializer):
                 "numero": data.pop("endereco.numero", ""),
             }
 
+        return data
+
+    def _limpar_cpf(self, data):
         # RN04 - Remove máscara do CPF antes da validação.
         if data.get("cpf"):
             data["cpf"] = apenas_numeros(data["cpf"])
 
+        return data
+
+    def _remover_foto_vazia(self, data):
         if "foto" in data and not data["foto"]:
             data.pop("foto")
 
+        return data
+
+    def _converter_nascimento(self, data):
         if data.get("nascimento"):
             nascimento = str(data["nascimento"])
 
@@ -123,7 +141,7 @@ class AdotanteSerializer(serializers.ModelSerializer):
             except ValueError:
                 pass
 
-        return super().to_internal_value(data)
+        return data
 
     def validate_cpf(self, value):
         # RN02 - Valida CPF.
@@ -139,20 +157,6 @@ class AdotanteSerializer(serializers.ModelSerializer):
         if cpfs_existentes.exists():
             raise serializers.ValidationError(
                 "Já existe um adotante cadastrado com este CPF."
-            )
-
-        return value
-
-    def validate_email(self, value):
-        # RN12 - Retorna mensagem amigável para e-mail duplicado tanto na criação quanto na atualização.
-        emails_existentes = Adotante.objects.filter(email=value)
-
-        if self.instance:
-            emails_existentes = emails_existentes.exclude(pk=self.instance.pk)
-
-        if emails_existentes.exists():
-            raise serializers.ValidationError(
-                "Já existe um adotante cadastrado com este e-mail."
             )
 
         return value
