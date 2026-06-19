@@ -1,9 +1,12 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.test import APITestCase
-
 from animais.models import Animal, Especie, Raca
 from core.models import Deficiencia
+from rest_framework_simplejwt.tokens import RefreshToken # <-- Importamos o Gerador de Tokens
+from voluntarios.models import Voluntario
+
+
 
 
 _GIF_MINIMO = (
@@ -22,6 +25,24 @@ def _foto():
 class AnimalAPITestCase(APITestCase):
 
     def setUp(self):
+        # 1. Criamos um voluntário mestre para "logar"
+        self.voluntario_logado = Voluntario.objects.create(
+            nome="Admin Teste",
+            cpf="000.000.000-00",
+            email="admin@ong.com",
+            funcao="Diretor",
+            login="admin.teste",
+            senha_hash="senha_admin",
+            nivel_acesso="ADMINISTRADOR"
+        )
+
+        # 2. Geramos o Token e injetamos o ID (Exatamente o que a IsVoluntarioLogado procura!)
+        refresh = RefreshToken()
+        refresh['voluntario_id'] = self.voluntario_logado.id
+        token = str(refresh.access_token)
+
+        # 3. Avisamos o DRF para mandar este Token no Header em TODAS as requisições
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
         self.especie = Especie.objects.create(nome="Cachorro")
         self.raca = Raca.objects.create(nome="Vira-lata", especie=self.especie)
         self.payload = {

@@ -1,7 +1,8 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 from adotantes.models import Adotante, Endereco
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from voluntarios.models import Voluntario 
 
 # TESTES DE API
 
@@ -9,6 +10,15 @@ class AdotanteAPITestCase(APITestCase):
     # Testes de rotas da API.
 
     def setUp(self):
+        self.voluntario = Voluntario.objects.create(
+            nome="Admin", cpf="000.000.000-00", email="admin@test.com",
+            login="admin", senha_hash="123", nivel_acesso="ADMINISTRADOR"
+        )
+        refresh = RefreshToken()
+        refresh['voluntario_id'] = self.voluntario.id
+        token = str(refresh.access_token)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        
         self.payload = {
             "nome": "João Silva",
             "cpf": "52998224725",
