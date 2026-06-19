@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
+import { logout } from "../../utils/auth";
 
 // --- Assets ---
 import LogoSystem from "../../assets/OneHelp_Branco.png";
@@ -16,8 +17,14 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false); 
   const [isAnimaisOpen, setIsAnimaisOpen] = useState(false);
   const [isClientesOpen, setIsClientesOpen] = useState(false);
-  const [isVoluntariosOpen, setIsVoluntariosOpen] = useState(false); 
+  const [isVoluntariosOpen, setIsVoluntariosOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const handleMouseEnter = () => {
     setIsOpen(true);
@@ -219,10 +226,15 @@ const Sidebar = () => {
 
       {/* --- Rodapé: logout --- */}
       <div className={styles.logoutSection}>
-        <Link to="/" className={styles.navLink}>
+        <button
+          type="button"
+          onClick={handleLogout}
+          className={styles.navLink}
+          style={{ background: "none", border: "none", cursor: "pointer", width: "100%" }}
+        >
           <img src={sairLogo} alt="Sair" className={styles.navIcon} />
           <span className={styles.navText}>Sair</span>
-        </Link>
+        </button>
       </div>
     </aside>
   );

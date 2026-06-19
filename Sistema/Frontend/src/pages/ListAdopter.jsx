@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Pencil, Trash2, Plus, Search, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { TIPO_RESIDENCIA_CODE_TO_LABEL, API_BASE_URL } from "../constants";
+import { authFetch } from "../utils/auth";
 import styles from "./ListAdopter.module.css";
 
 const API_URL = `${API_BASE_URL}/api/adotantes/`;
@@ -36,7 +37,7 @@ const ListAdopter = () => {
       try {
         setLoading(true);
         setErro(null);
-        const response = await fetch(API_URL);
+        const response = await authFetch(API_URL);
         if (!response.ok) throw new Error("Erro ao buscar adotantes.");
         const data = await response.json();
         setAdotantes(data);
@@ -115,7 +116,7 @@ const ListAdopter = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Deseja realmente inativar este cliente?")) return;
     try {
-      const response = await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      const response = await authFetch(`${API_URL}${id}/`, { method: "DELETE" });
       if (!response.ok) throw new Error("Erro ao inativar cliente.");
 
       setAdotantes((prev) =>

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Header from "./components/Perfiladm/Header";
+import PrivateRoute from "./components/PrivateRoute";
 import "./App.css";
 
 // --- Telas Públicas ---
@@ -36,15 +37,17 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route element={<DashboardLayout />}>
-          <Route path="/cadanimals" element={<Cadanimals />} />
-          <Route path="/listanimals" element={<Listanimals />} />
-          <Route path="/cadadopter" element={<CadAdopter />} />
-          <Route path="/cadadopter/:id" element={<CadAdopter />} />
-          <Route path="/listadopter" element={<ListAdopter />} />
-          <Route path="/cadvoluntary" element={<CadVoluntary />} />
-          <Route path="/listvoluntary" element={<ListVoluntary />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<PrivateRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/cadanimals" element={<Cadanimals />} />
+            <Route path="/listanimals" element={<Listanimals />} />
+            <Route path="/cadadopter" element={<CadAdopter />} />
+            <Route path="/cadadopter/:id" element={<CadAdopter />} />
+            <Route path="/listadopter" element={<ListAdopter />} />
+            <Route path="/cadvoluntary" element={<CadVoluntary />} />
+            <Route path="/listvoluntary" element={<ListVoluntary />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
