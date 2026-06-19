@@ -24,6 +24,8 @@ from adotantes.views import AdotanteViewSet, EnderecoViewSet
 from voluntarios.views import VoluntarioViewSet 
 from voluntarios.views import LoginVoluntarioView 
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 # Unified API router to ensure all endpoints show up on the /api/ root page
 router = DefaultRouter()
@@ -38,8 +40,8 @@ router.register(r'voluntarios', VoluntarioViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/login/', LoginVoluntarioView.as_view(), name='api-login'),
-
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/login/teste/', LoginVoluntarioView.as_view(), name='api-login'),
 ]
 
 if settings.DEBUG:

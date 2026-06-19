@@ -2,8 +2,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.tokens import RefreshToken # <-- Importamos o Gerador de Tokens
 
-# Adapte a importação de acordo com o nome do seu app (ex: usuarios, pessoas, voluntarios)
+# Adapte a importação de acordo com o nome do seu app
 from voluntarios.models import Voluntario
 
 class VoluntarioAPITestCase(APITestCase):
@@ -11,6 +12,29 @@ class VoluntarioAPITestCase(APITestCase):
     def setUp(self):
         # Usando reverse para não "chumbar" a URL, blindando contra futuras mudanças de rota
         self.url_list = reverse('voluntario-list')
+        
+        # ==========================================
+        # MÁGICA DA AUTENTICAÇÃO SIMPLIFICADA
+        # ==========================================
+        # 1. Criamos um voluntário mestre para "logar"
+        self.voluntario_logado = Voluntario.objects.create(
+            nome="Admin Teste",
+            cpf="000.000.000-00",
+            email="admin@ong.com",
+            funcao="Diretor",
+            login="admin.teste",
+            senha_hash="senha_admin",
+            nivel_acesso="ADMINISTRADOR"
+        )
+
+        # 2. Geramos o Token e injetamos o ID (Exatamente o que a IsVoluntarioLogado procura!)
+        refresh = RefreshToken()
+        refresh['voluntario_id'] = self.voluntario_logado.id
+        token = str(refresh.access_token)
+
+        # 3. Avisamos o DRF para mandar este Token no Header em TODAS as requisições
+        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
+        # ==========================================
         
         self.payload_valido = {
             "nome": "João Voluntário",
@@ -44,7 +68,8 @@ class VoluntarioAPITestCase(APITestCase):
         # TDD01: Valida se cria com 201 e se a senha é criptografada no banco
         resposta = self.client.post(self.url_list, self.payload_valido, format='json')
         self.assertEqual(resposta.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Voluntario.objects.count(), 1)
+        # Atenção: Tem de ser 2 (O Voluntário Logado do setUp + o João criado agora)
+        self.assertEqual(Voluntario.objects.count(), 2)
         
         # Validação RN04: A senha não pode estar em texto puro
         voluntario_salvo = Voluntario.objects.get(login="joao.resgate")
@@ -113,7 +138,9 @@ class VoluntarioAPITestCase(APITestCase):
         
         voluntario.refresh_from_db()
         self.assertEqual(voluntario.status, 'INATIVO') # RN09 Validada
-        self.assertEqual(Voluntario.objects.count(), 1) # Garante que ainda existe
+        
+        # Atenção: Tem de ser 2 (O Voluntário Logado do setUp + o que acabamos de inativar)
+        self.assertEqual(Voluntario.objects.count(), 2) 
 
     # ==========================================
     # TDD07 — PATCH E EDIÇÃO

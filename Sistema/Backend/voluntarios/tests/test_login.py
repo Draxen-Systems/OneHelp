@@ -2,38 +2,25 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+
 # Importe o model Voluntario de onde ele estiver (ex: pessoas.models, core.models)
 from voluntarios.models import Voluntario
 
 class LoginAPITestCase(APITestCase):
 
     def setUp(self):
-        # A URL que criamos no urls.py
         self.url_login = reverse('api-login')
-        
-        # Criamos um voluntário ATIVO para testar o sucesso
         self.voluntario_ativo = Voluntario.objects.create(
-            nome="João Ativo",
-            cpf="111.222.333-44",
-            email="joao@ong.com",
-            funcao="Resgatista",
-            login="joao.ativo",
-            senha_hash="senha123", # O model vai hashear automaticamente pelo método save()
-            status="ATIVO",
-            nivel_acesso="VOLUNTARIO"
+            nome="João Ativo", cpf="111.222.333-44", email="joao@ong.com",
+            funcao="Resgatista", login="joao.ativo", senha_hash="senha123",
+            status="ATIVO", nivel_acesso="VOLUNTARIO"
+        )
+        self.voluntario_inativo = Voluntario.objects.create(
+            nome="Maria Inativa", cpf="999.888.777-66", email="maria@ong.com",
+            funcao="Veterinária", login="maria.inativa", senha_hash="senha123",
+            status="INATIVO", nivel_acesso="VETERINARIO"
         )
 
-        # Criamos um voluntário INATIVO (Excluído logicamente) para testar o bloqueio
-        self.voluntario_inativo = Voluntario.objects.create(
-            nome="Maria Inativa",
-            cpf="999.888.777-66",
-            email="maria@ong.com",
-            funcao="Veterinária",
-            login="maria.inativa",
-            senha_hash="senha123",
-            status="INATIVO",
-            nivel_acesso="VETERINARIO"
-        )
 
     def test_tdd01_login_sucesso(self):
         # TDD01: Credenciais corretas devem retornar 200 OK e os Tokens JWT

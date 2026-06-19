@@ -5,12 +5,15 @@ from .serializers import VoluntarioSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .permissoes import IsVoluntarioLogado  
 from .models import Voluntario
 
 class VoluntarioViewSet(viewsets.ModelViewSet):
+    authentication_classes = []
     queryset = Voluntario.objects.all()
     serializer_class = VoluntarioSerializer
+    permission_classes = [IsVoluntarioLogado]
+
 
     def destroy(self, request, *args, **kwargs):
         voluntario = self.get_object()
@@ -30,6 +33,8 @@ class LoginVoluntarioView(APIView):
     """
     # Liberamos essa rota específica para não exigir token (afinal, é aqui que ele pega o token!)
     permission_classes = [] 
+    authentication_classes = []
+
 
     def post(self, request):
         login_informado = request.data.get('login')
