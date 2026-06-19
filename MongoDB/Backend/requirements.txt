@@ -1,0 +1,6 @@
+# Driver oficial do MongoDB para Python (Essencial para conectar e rodar as consultas)
+pymongo==4.6.1
+
+# Biblioteca para gerar a nossa massa de dados de teste (O "Caos" controlado)
+Faker==22.5.1
+
