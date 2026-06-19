@@ -1,7 +1,6 @@
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework import status
 from rest_framework.test import APITestCase
-
 from animais.models import Animal, Especie, Raca
 from core.models import Deficiencia
 

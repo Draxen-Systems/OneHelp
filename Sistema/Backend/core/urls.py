@@ -22,6 +22,8 @@ from rest_framework.routers import DefaultRouter
 from animais.views import EspecieViewSet, RacaViewSet, AnimalViewSet
 from adotantes.views import AdotanteViewSet, EnderecoViewSet
 from voluntarios.views import VoluntarioViewSet 
+from voluntarios.views import LoginVoluntarioView 
+
 
 # Unified API router to ensure all endpoints show up on the /api/ root page
 router = DefaultRouter()
@@ -36,6 +38,8 @@ router.register(r'voluntarios', VoluntarioViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/login/', LoginVoluntarioView.as_view(), name='api-login'),
+
 ]
 
 if settings.DEBUG:

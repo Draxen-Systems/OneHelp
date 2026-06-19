@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password
+from datetime import date
 
 class Voluntario(models.Model):
     # RN05: Opções para Status
@@ -24,7 +25,7 @@ class Voluntario(models.Model):
     email = models.EmailField(unique=True) # RN02: E-mail único
     endereco = models.TextField(null=True, blank=True)
     funcao = models.CharField(max_length=100)
-    data_entrada = models.DateField(default=timezone.now) # RN08: Data obrigatória
+    data_entrada = models.DateField(default=date.today) # RN08: Data obrigatória
     
     # RN05: Status obrigatório e não nulo
     status = models.CharField(
