@@ -16,3 +16,24 @@ export const TIPO_RESIDENCIA_CODE_TO_LABEL = {
 };
 
 export const API_BASE_URL = "http://127.0.0.1:8000";
+
+// Mapeamento centralizado de campos de Animal
+// Usado tanto no Cadanimals (formulário) quanto no ListAnimals (filtros e tabela)
+
+export const SEXO_CODE_TO_LABEL = {
+  M: "Macho",
+  F: "Fêmea",
+};
+
+export const PORTE_CODE_TO_LABEL = {
+  P: "Pequeno",
+  M: "Médio",
+  G: "Grande",
+};
+
+export const STATUS_ANIMAL_CODE_TO_LABEL = {
+  Disponivel: "Disponível",
+  Tratamento: "Em Tratamento",
+  Adotado: "Adotado",
+  Obito: "Óbito",
+};

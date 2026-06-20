@@ -40,6 +40,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route element={<DashboardLayout />}>
             <Route path="/cadanimals" element={<Cadanimals />} />
+            <Route path="/cadanimals/:id" element={<Cadanimals />} />
             <Route path="/listanimals" element={<Listanimals />} />
             <Route path="/cadadopter" element={<CadAdopter />} />
             <Route path="/cadadopter/:id" element={<CadAdopter />} />

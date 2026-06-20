@@ -1,20 +1,43 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, PawPrint } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  API_BASE_URL,
+  SEXO_CODE_TO_LABEL,
+  PORTE_CODE_TO_LABEL,
+  STATUS_ANIMAL_CODE_TO_LABEL,
+} from "../constants";
+import { authFetch } from "../utils/auth";
+import { removerAcentos, montarUrlFoto } from "../utils/format";
 import styles from "./ListAnimals.module.css";
 
-const API_URL = "http://localhost:3001/animais";
+const API_URL = `${API_BASE_URL}/api/animais/`;
+const ESPECIES_URL = `${API_BASE_URL}/api/especies/`;
+const RACAS_URL = `${API_BASE_URL}/api/racas/`;
+
+const STATUS_BADGE_CLASS = {
+  Disponivel: "badgeDisponivel",
+  Tratamento: "badgeTratamento",
+  Adotado: "badgeAdotado",
+  Obito: "badgeObito",
+};
 
 const ListAnimals = () => {
   const [animais, setAnimais] = useState([]);
+  const [especies, setEspecies] = useState([]);
+  const [racas, setRacas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState(null);
+  const [sucesso, setSucesso] = useState(null);
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const navigate = useNavigate();
 
   const { register, watch } = useForm({
     defaultValues: {
       busca: "",
       especie: "todas",
+      raca: "todas",
       sexo: "todos",
       status: "todos",
       porte: "todos",
@@ -23,16 +46,24 @@ const ListAnimals = () => {
 
   const filtros = watch();
 
-  // --- Buscar Animais da API ---
+  // --- Buscar Animais, Espécies e Raças da API ---
   useEffect(() => {
-    const fetchAnimais = async () => {
+    const fetchDados = async () => {
       try {
         setLoading(true);
         setErro(null);
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Erro ao buscar animais.");
-        const data = await response.json();
-        setAnimais(data);
+        const [respAnimais, respEspecies, respRacas] = await Promise.all([
+          authFetch(API_URL),
+          authFetch(ESPECIES_URL),
+          authFetch(RACAS_URL),
+        ]);
+        if (!respAnimais.ok) throw new Error("Erro ao buscar animais.");
+        if (!respEspecies.ok || !respRacas.ok) {
+          throw new Error("Erro ao buscar espécies e raças.");
+        }
+        setAnimais(await respAnimais.json());
+        setEspecies(await respEspecies.json());
+        setRacas(await respRacas.json());
       } catch (err) {
         setErro(err.message);
       } finally {
@@ -40,18 +71,17 @@ const ListAnimals = () => {
       }
     };
 
-    fetchAnimais();
+    fetchDados();
   }, []);
 
-  // --- Remover Acentos ---
-  const removerAcentos = (str) => {
-    return str
-      ? str
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase()
-      : "";
-  };
+  useEffect(() => {
+    if (!sucesso) return;
+    const timer = setTimeout(() => setSucesso(null), 3000);
+    return () => clearTimeout(timer);
+  }, [sucesso]);
+
+  const especiesMap = Object.fromEntries(especies.map((e) => [e.id, e.nome]));
+  const racasMap = Object.fromEntries(racas.map((r) => [r.id, r.nome]));
 
   // --- Lógica de Filtros ---
   const animaisFiltrados = animais.filter((animal) => {
@@ -65,21 +95,18 @@ const ListAnimals = () => {
 
     const especieOk =
       filtros.especie === "todas" ||
-      removerAcentos(animal.especie) === removerAcentos(filtros.especie);
+      String(animal.especie) === String(filtros.especie);
 
-    const sexoOk =
-      filtros.sexo === "todos" ||
-      removerAcentos(animal.sexo) === removerAcentos(filtros.sexo);
+    const racaOk =
+      filtros.raca === "todas" || String(animal.raca) === String(filtros.raca);
 
-    const statusOk =
-      filtros.status === "todos" ||
-      removerAcentos(animal.status).includes(removerAcentos(filtros.status));
+    const sexoOk = filtros.sexo === "todos" || animal.sexo === filtros.sexo;
 
-    const porteOk =
-      filtros.porte === "todos" ||
-      removerAcentos(animal.porte) === removerAcentos(filtros.porte);
+    const statusOk = filtros.status === "todos" || animal.status === filtros.status;
 
-    return buscaOk && especieOk && sexoOk && statusOk && porteOk;
+    const porteOk = filtros.porte === "todos" || animal.porte === filtros.porte;
+
+    return buscaOk && especieOk && racaOk && sexoOk && statusOk && porteOk;
   });
 
   // --- Configuração da Paginação ---
@@ -90,14 +117,16 @@ const ListAnimals = () => {
     paginaAtual * itensPorPagina,
   );
 
-  // --- Excluir Animal ---
+  // --- Exclusão lógica (DELETE seta ativo=False no backend) ---
   const handleDelete = async (id) => {
-    if (!window.confirm("Deseja excluir este animal?")) return;
+    if (!window.confirm("Deseja inativar este animal?")) return;
     try {
-      await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+      const response = await authFetch(`${API_URL}${id}/`, { method: "DELETE" });
+      if (!response.ok) throw new Error("Erro ao inativar animal.");
       setAnimais((prev) => prev.filter((a) => a.id !== id));
+      setSucesso("Animal inativado com sucesso.");
     } catch {
-      alert("Erro ao excluir animal.");
+      setErro("Erro ao inativar animal.");
     }
   };
 
@@ -107,7 +136,10 @@ const ListAnimals = () => {
         {/* --- Header --- */}
         <header className={styles.titleWrapper}>
           <h1>Listagem de Animais</h1>
-          <button className={styles.btnCadastrar}>
+          <button
+            className={styles.btnCadastrar}
+            onClick={() => navigate("/cadanimals")}
+          >
             Cadastrar Novo Animal <Plus size={18} />
           </button>
         </header>
@@ -127,8 +159,23 @@ const ListAnimals = () => {
             <label>Espécie</label>
             <select {...register("especie")}>
               <option value="todas">Todas</option>
-              <option value="cachorro">Cachorro</option>
-              <option value="gato">Gato</option>
+              {especies.map((especie) => (
+                <option key={especie.id} value={especie.id}>
+                  {especie.nome}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label>Raça</label>
+            <select {...register("raca")}>
+              <option value="todas">Todas</option>
+              {racas.map((raca) => (
+                <option key={raca.id} value={raca.id}>
+                  {raca.nome}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -139,10 +186,10 @@ const ListAnimals = () => {
                 <input type="radio" value="todos" {...register("sexo")} /> Todos
               </label>
               <label>
-                <input type="radio" value="macho" {...register("sexo")} /> Macho
+                <input type="radio" value="M" {...register("sexo")} /> Macho
               </label>
               <label>
-                <input type="radio" value="femea" {...register("sexo")} /> Fêmea
+                <input type="radio" value="F" {...register("sexo")} /> Fêmea
               </label>
             </div>
           </div>
@@ -151,8 +198,11 @@ const ListAnimals = () => {
             <label>Status</label>
             <select {...register("status")}>
               <option value="todos">Todos</option>
-              <option value="adocao">Para Adoção</option>
-              <option value="adotado">Adotado</option>
+              {Object.entries(STATUS_ANIMAL_CODE_TO_LABEL).map(([codigo, label]) => (
+                <option key={codigo} value={codigo}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -160,14 +210,17 @@ const ListAnimals = () => {
             <label>Porte</label>
             <select {...register("porte")}>
               <option value="todos">Todos</option>
-              <option value="pequeno">Pequeno</option>
-              <option value="medio">Médio</option>
-              <option value="grande">Grande</option>
+              {Object.entries(PORTE_CODE_TO_LABEL).map(([codigo, label]) => (
+                <option key={codigo} value={codigo}>
+                  {label}
+                </option>
+              ))}
             </select>
           </div>
         </section>
 
         {/* --- Feedback Visual --- */}
+        {sucesso && <p className={styles.feedback} style={{ color: "#2e7d32" }}>{sucesso}</p>}
         {loading && <p className={styles.feedback}>Carregando animais...</p>}
         {erro && <p className={styles.feedbackErro}>{erro}</p>}
 
@@ -181,6 +234,7 @@ const ListAnimals = () => {
                   <th>Foto</th>
                   <th>Nome</th>
                   <th>Espécie</th>
+                  <th>Raça</th>
                   <th>Sexo</th>
                   <th>PCD</th>
                   <th>Porte</th>
@@ -191,7 +245,7 @@ const ListAnimals = () => {
               <tbody>
                 {animaisPagina.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className={styles.semResultados}>
+                    <td colSpan={10} className={styles.semResultados}>
                       Nenhum animal encontrado.
                     </td>
                   </tr>
@@ -200,33 +254,46 @@ const ListAnimals = () => {
                     <tr key={animal.id}>
                       <td>{animal.id}</td>
                       <td>
-                        <img
-                          className={styles.animalPhoto}
-                          src={animal.foto}
-                          alt={animal.nome}
-                        />
+                        {animal.foto ? (
+                          <img
+                            className={styles.animalPhoto}
+                            src={montarUrlFoto(animal.foto)}
+                            alt={animal.nome}
+                          />
+                        ) : (
+                          <PawPrint size={28} color="#314d41" strokeWidth={1.2} />
+                        )}
                       </td>
                       <td>{animal.nome}</td>
-                      <td>{animal.especie}</td>
-                      <td>{animal.sexo}</td>
-                      <td>{animal.pcd ?? "Não"}</td>
-                      <td>{animal.porte}</td>
+                      <td>{especiesMap[animal.especie] || "-"}</td>
+                      <td>{racasMap[animal.raca] || "-"}</td>
+                      <td>{SEXO_CODE_TO_LABEL[animal.sexo] || animal.sexo}</td>
+                      <td>{animal.deficiencias?.length > 0 ? "Sim" : "Não"}</td>
+                      <td>{PORTE_CODE_TO_LABEL[animal.porte] || animal.porte}</td>
                       <td>
-                        <span className={styles.badgeAdocao}>
-                          {animal.status}
+                        <span
+                          className={
+                            styles[STATUS_BADGE_CLASS[animal.status]] ||
+                            styles.badgeDisponivel
+                          }
+                        >
+                          {STATUS_ANIMAL_CODE_TO_LABEL[animal.status] || animal.status}
                         </span>
                       </td>
                       <td>
                         <div className={styles.actionButtons}>
                           <button
                             className={styles.btnEdit}
-                            aria-label="Editar">
+                            aria-label="Editar"
+                            onClick={() => navigate(`/cadanimals/${animal.id}`)}
+                          >
                             <Pencil size={16} />
                           </button>
                           <button
                             className={styles.btnDelete}
                             aria-label="Excluir"
-                            onClick={() => handleDelete(animal.id)}>
+                            onClick={() => handleDelete(animal.id)}
+                          >
                             <Trash2 size={16} />
                           </button>
                         </div>

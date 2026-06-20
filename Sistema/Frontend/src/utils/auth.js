@@ -59,7 +59,8 @@ const refreshAccessToken = async () => {
   return dados.access;
 };
 
-// fetch autenticado: anexa o Bearer token e tenta renovar uma vez em caso de 401
+// fetch autenticado: anexa o Bearer token e tenta renovar uma vez em caso de token ausente/expirado/inválido.
+// IsVoluntarioLogado (backend) sempre responde 403 nesses casos, nunca 401, então ambos disparam o refresh.
 export const authFetch = async (url, options = {}) => {
   const fazerRequisicao = (token) =>
     fetch(url, {
@@ -72,7 +73,7 @@ export const authFetch = async (url, options = {}) => {
 
   let response = await fazerRequisicao(getAccessToken());
 
-  if (response.status === 401) {
+  if (response.status === 401 || response.status === 403) {
     const novoToken = await refreshAccessToken();
     if (!novoToken) return response;
     response = await fazerRequisicao(novoToken);
