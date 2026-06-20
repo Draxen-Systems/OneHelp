@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Sidebar from "./components/Sidebar/Sidebar";
-import Header from "./components/Perfiladm/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import "./App.css";
 
@@ -11,6 +10,8 @@ import Dashboard from "./pages/Dashboard";
 // --- Animais ---
 import Cadanimals from "./pages/Cadanimals";
 import Listanimals from "./pages/ListAnimals";
+import CadRace from "./pages/CadRace";
+import CadSpecies from "./pages/CadSpecies";
 
 // --- Clientes ---
 import CadAdopter from "./pages/CadAdopter";
@@ -25,7 +26,6 @@ const DashboardLayout = () => {
     <div className="App">
       <Sidebar />
       <main className="main-content">
-        <Header />
         <Outlet />
       </main>
     </div>
@@ -42,6 +42,8 @@ const App = () => {
             <Route path="/cadanimals" element={<Cadanimals />} />
             <Route path="/cadanimals/:id" element={<Cadanimals />} />
             <Route path="/listanimals" element={<Listanimals />} />
+            <Route path="/cadrace" element={<CadRace />} />
+            <Route path="/cadspecies" element={<CadSpecies />} />
             <Route path="/cadadopter" element={<CadAdopter />} />
             <Route path="/cadadopter/:id" element={<CadAdopter />} />
             <Route path="/listadopter" element={<ListAdopter />} />

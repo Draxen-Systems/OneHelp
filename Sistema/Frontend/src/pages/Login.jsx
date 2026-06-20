@@ -83,9 +83,6 @@ const Login = () => {
             </button>
           </form>
 
-          <a href="/recuperar-senha" className={styles.forgotPassword}>
-            Esqueci minha senha
-          </a>
         </div>
       </div>
     </div>
