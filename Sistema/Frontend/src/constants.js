@@ -37,3 +37,18 @@ export const STATUS_ANIMAL_CODE_TO_LABEL = {
   Adotado: "Adotado",
   Obito: "Óbito",
 };
+
+// Mapeamento centralizado de campos de Voluntário
+// Usado tanto no CadVoluntary (formulário) quanto no ListVoluntary (filtros e tabela)
+
+export const NIVEL_ACESSO_CODE_TO_LABEL = {
+  ADMINISTRADOR: "Administrador",
+  VOLUNTARIO: "Voluntário",
+  VETERINARIO: "Veterinário",
+};
+
+export const STATUS_VOLUNTARIO_CODE_TO_LABEL = {
+  ATIVO: "Ativo",
+  INATIVO: "Inativo",
+  AFASTADO: "Afastado",
+};

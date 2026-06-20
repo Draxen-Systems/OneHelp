@@ -169,8 +169,9 @@
   color: #fff;
 }
 
-.ativo   { background: #3a8c4a; }
-.inativo { background: #c0392b; }
+.ativo    { background: #3a8c4a; }
+.inativo  { background: #c0392b; }
+.afastado { background: #d4a017; }
 
 /* Ações */
 .acoes {

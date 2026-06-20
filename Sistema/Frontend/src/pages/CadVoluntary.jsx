@@ -1,73 +1,133 @@
-import { useState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { Upload, X } from 'lucide-react';
-import styles from './CadVoluntary.module.css';
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
+import { API_BASE_URL, NIVEL_ACESSO_CODE_TO_LABEL, STATUS_VOLUNTARIO_CODE_TO_LABEL } from "../constants";
+import { authFetch } from "../utils/auth";
+import styles from "./CadVoluntary.module.css";
+
+const API_URL = `${API_BASE_URL}/api/voluntarios/`;
 
 const CadVoluntary = () => {
-  const [previewImage, setPreviewImage] = useState(null);
-  const [deficiencias, setDeficiencias] = useState([]);
-  const [defInput, setDefInput] = useState('');
-  const defInputRef = useRef(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const isEditing = Boolean(id);
 
-  const { register, handleSubmit, watch } = useForm({
+  const [erroApi, setErroApi] = useState(null);
+
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      nome: '',
-      cpf: '',
-      nascimento: '',
-      email: '',
-      funcao: '',
-      acesso: 'Voluntário',
-      telefone: '',
-      pcd: false,
-      cep: '',
-      endereco: '',
-      bairro: '',
-      uf: '',
-      numero: '',
-      dataEntrada: '',
-      login: '',
-      disponibilidade: 'Manhã',
-      senha: '',
-      observacoes: '',
+      nome: "",
+      cpf: "",
+      email: "",
+      funcao: "",
+      nivel_acesso: "VOLUNTARIO",
+      telefone: "",
+      endereco: "",
+      data_entrada: "",
+      login: "",
+      senha: "",
+      status: "ATIVO",
+      observacoes: "",
     },
   });
 
-  const isPcd = watch('pcd');
-  const fotoRegister = register('foto');
+  // Carrega dados do voluntário em modo edição
+  useEffect(() => {
+    if (!id) return;
 
-  const addDeficiencia = (value) => {
-    const trimmed = value.trim();
-    if (trimmed && !deficiencias.includes(trimmed)) {
-      setDeficiencias((prev) => [...prev, trimmed]);
+    const carregarVoluntario = async () => {
+      try {
+        const response = await authFetch(`${API_URL}${id}/`);
+        if (!response.ok) throw new Error("Erro ao carregar voluntário.");
+        const dados = await response.json();
+
+        reset({
+          nome: dados.nome || "",
+          cpf: dados.cpf || "",
+          email: dados.email || "",
+          funcao: dados.funcao || "",
+          nivel_acesso: dados.nivel_acesso || "VOLUNTARIO",
+          telefone: dados.telefone || "",
+          endereco: dados.endereco || "",
+          data_entrada: dados.data_entrada || "",
+          login: dados.login || "",
+          senha: "",
+          status: dados.status || "ATIVO",
+          observacoes: dados.observacoes || "",
+        });
+      } catch (err) {
+        setErroApi(err.message);
+      }
+    };
+
+    carregarVoluntario();
+  }, [id, reset]);
+
+  const onSubmit = async (data) => {
+    setErroApi(null);
+
+    const payload = {
+      nome: data.nome,
+      cpf: data.cpf,
+      email: data.email,
+      funcao: data.funcao,
+      nivel_acesso: data.nivel_acesso,
+      telefone: data.telefone,
+      endereco: data.endereco,
+      login: data.login,
+      observacoes: data.observacoes || "",
+    };
+
+    // Tem default no model; só envia se preenchido (string vazia não é data válida)
+    if (data.data_entrada) {
+      payload.data_entrada = data.data_entrada;
     }
-    setDefInput('');
-  };
 
-  const removeDeficiencia = (tag) => {
-    setDeficiencias((prev) => prev.filter((d) => d !== tag));
-  };
-
-  const handleDefKeyDown = (e) => {
-    if (e.key === 'Enter' || e.key === ',') {
-      e.preventDefault();
-      addDeficiencia(defInput);
-    } else if (e.key === 'Backspace' && defInput === '' && deficiencias.length > 0) {
-      setDeficiencias((prev) => prev.slice(0, -1));
+    if (isEditing) {
+      payload.status = data.status;
     }
-  };
 
-  const onSubmit = (data) => {
-    console.log({ ...data, deficiencias });
+    // Senha so e enviada se preenchida: obrigatoria no cadastro, opcional na edicao
+    if (data.senha) {
+      payload.senha_hash = data.senha;
+    }
+
+    try {
+      const url = isEditing ? `${API_URL}${id}/` : API_URL;
+      const method = isEditing ? "PATCH" : "POST";
+
+      const response = await authFetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        const mensagens = Object.entries(resultado)
+          .map(([campo, erros]) => `${campo}: ${[].concat(erros).join(", ")}`)
+          .join("\n");
+        setErroApi(mensagens);
+        return;
+      }
+
+      navigate("/listvoluntary");
+    } catch {
+      setErroApi("Erro de conexão com o servidor.");
+    }
   };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Cadastro de Voluntários</h1>
+      <h1 className={styles.title}>
+        {isEditing ? "Edição de Voluntário" : "Cadastro de Voluntários"}
+      </h1>
 
       <form className={styles.card} onSubmit={handleSubmit(onSubmit)}>
+        {erroApi && <p className={styles.feedbackErro}>{erroApi}</p>}
+
         <div className={styles.topContent}>
           <section className={styles.formSection}>
-
             {/* Seção 1 - Dados pessoais */}
             <div className={styles.sectionHeader}>
               <span className={styles.sectionNumber}>1</span>
@@ -77,41 +137,52 @@ const CadVoluntary = () => {
             <div className={styles.row}>
               <div className={styles.fieldGroup}>
                 <label>Nome do Voluntário <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="Digite o nome completo" {...register('nome')} />
+                <input type="text" placeholder="Digite o nome completo" {...register("nome")} />
               </div>
               <div className={`${styles.fieldGroup} ${styles.fieldCpf}`}>
                 <label>CPF <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="___.___.___-__" {...register('cpf')} />
+                <input type="text" placeholder="___.___.___-__" {...register("cpf")} />
               </div>
             </div>
 
             <div className={styles.row}>
-              <div className={`${styles.fieldGroup} ${styles.fieldNasc}`}>
-                <label>Nascimento <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="00/00/0000" {...register('nascimento')} />
-              </div>
               <div className={styles.fieldGroup}>
                 <label>Email <span className={styles.required}>*</span></label>
-                <input type="email" placeholder="exemplo@gmail.com" {...register('email')} />
+                <input type="email" placeholder="exemplo@gmail.com" {...register("email")} />
+              </div>
+              <div className={`${styles.fieldGroup} ${styles.fieldTel}`}>
+                <label>Telefone</label>
+                <input type="text" placeholder="(__)_____-____" {...register("telefone")} />
               </div>
             </div>
 
             <div className={styles.row}>
               <div className={`${styles.fieldGroup} ${styles.fieldFunc}`}>
                 <label>Função <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="Ex: Cuidador" {...register('funcao')} />
+                <input type="text" placeholder="Ex: Cuidador" {...register("funcao")} />
               </div>
               <div className={`${styles.fieldGroup} ${styles.fieldAcesso}`}>
-                <label>Acesso <span className={styles.required}>*</span></label>
-                <select {...register('acesso')}>
-                  <option value="Voluntário">Voluntário</option>
-                  <option value="Admin">Admin</option>
+                <label>Nível de Acesso <span className={styles.required}>*</span></label>
+                <select {...register("nivel_acesso")}>
+                  {Object.entries(NIVEL_ACESSO_CODE_TO_LABEL).map(([codigo, label]) => (
+                    <option key={codigo} value={codigo}>
+                      {label}
+                    </option>
+                  ))}
                 </select>
               </div>
-              <div className={`${styles.fieldGroup} ${styles.fieldTel}`}>
-                <label>Telefone <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="(__)_____-____" {...register('telefone')} />
-              </div>
+              {isEditing && (
+                <div className={styles.fieldGroup}>
+                  <label>Status</label>
+                  <select {...register("status")}>
+                    {Object.entries(STATUS_VOLUNTARIO_CODE_TO_LABEL).map(([codigo, label]) => (
+                      <option key={codigo} value={codigo}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
 
             {/* Seção 2 - Endereço */}
@@ -121,170 +192,63 @@ const CadVoluntary = () => {
             </div>
 
             <div className={styles.row}>
-              <div className={`${styles.fieldGroup} ${styles.fieldCep}`}>
-                <label>CEP <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="00000-000" {...register('cep')} />
-              </div>
               <div className={styles.fieldGroup}>
-                <label>Endereço <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="Rua, Avenida, etc." {...register('endereco')} />
+                <label>Endereço</label>
+                <input type="text" placeholder="Rua, número, bairro, cidade, UF" {...register("endereco")} />
               </div>
             </div>
 
-            <div className={styles.row}>
-              <div className={styles.fieldGroup}>
-                <label>Bairro <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="Digite o bairro" {...register('bairro')} />
-              </div>
-              <div className={`${styles.fieldGroup} ${styles.fieldNum}`}>
-                <label>Número <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="123" {...register('numero')} />
-              </div>
-              <div className={styles.fieldGroup}>
-                <label>Complemento</label>
-                <input type="text" placeholder="Apto, Bloco, casa, etc." {...register('complemento')} />
-              </div>
-            </div>
-
-            <div className={styles.row}>
-              <div className={`${styles.fieldGroup} ${styles.fieldUf}`}>
-                <label>UF <span className={styles.required}>*</span></label>
-                <select {...register('uf')}>
-                  <option value="">Selecione</option>
-                  <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
-                  <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
-                  <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
-                  <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
-                  <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
-                  <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
-                  <option>SP</option><option>SE</option><option>TO</option>
-                </select>
-              </div>
-              <div className={styles.fieldGroup}>
-               <label>Cidade <span className={styles.required}>*</span></label>
-                <input type="text" placeholder="Digite a cidade" {...register('cidade')} />
-              </div>
-            </div>
-
-            {/* Seção 3 - PCD */}
+            {/* Seção 3 - Acesso ao sistema */}
             <div className={styles.sectionHeader}>
               <span className={styles.sectionNumber}>3</span>
-              <span className={styles.sectionTitle}>Condições especiais</span>
-            </div>
-
-            <div className={styles.pcdCheck}>
-              <label className={styles.checkboxLabel}>
-                <input type="checkbox" {...register('pcd')} />
-                O voluntário possui alguma condição especial?
-              </label>
-              {isPcd && <p className={styles.pcdHint}>Selecionar condições (pode ser mais de uma)</p>}
-            </div>
-
-            {isPcd && (
-              <div className={styles.deficienciaWrapper}>
-                <input
-                  ref={defInputRef}
-                  type="text"
-                  className={styles.deficienciaSearchInput}
-                  value={defInput}
-                  placeholder="Informe a condição..."
-                  onChange={(e) => setDefInput(e.target.value)}
-                  onKeyDown={handleDefKeyDown}
-                  onBlur={() => defInput && addDeficiencia(defInput)}
-                />
-              </div>
-            )}
-            {isPcd && deficiencias.length > 0 && (
-              <div className={styles.tagsContainer}>
-                {deficiencias.map((tag) => (
-                  <span key={tag} className={styles.tag}>
-                    {tag}
-                    <button
-                      type="button"
-                      className={styles.tagRemove}
-                      onClick={() => removeDeficiencia(tag)}
-                    >
-                      <X size={10} />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Seção 4 - Acesso */}
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionNumber}>4</span>
               <span className={styles.sectionTitle}>Acesso ao sistema</span>
             </div>
 
             <div className={styles.row}>
               <div className={`${styles.fieldGroup} ${styles.fieldNasc}`}>
-                <label>Data Entrada</label>
-                <input type="text" placeholder="00/00/0000" {...register('dataEntrada')} />
+                <label>Data de Entrada</label>
+                <input type="date" {...register("data_entrada")} />
               </div>
               <div className={styles.fieldGroup}>
-                <label>Login</label>
-                <input type="text" {...register('login')} />
+                <label>Login <span className={styles.required}>*</span></label>
+                <input type="text" {...register("login")} />
               </div>
             </div>
 
             <div className={styles.row}>
-              <div className={`${styles.fieldGroup} ${styles.fieldDisp}`}>
-                <label>Disponibilidade</label>
-                <select {...register('disponibilidade')}>
-                  <option value="Manhã">Manhã</option>
-                  <option value="Tarde">Tarde</option>
-                  <option value="Noite">Noite</option>
-                  <option value="Integral">Integral</option>
-                </select>
-              </div>
               <div className={styles.fieldGroup}>
-                <label>Senha</label>
-                <input type="password" {...register('senha')} />
+                <label>
+                  Senha {!isEditing && <span className={styles.required}>*</span>}
+                </label>
+                <input
+                  type="password"
+                  placeholder={isEditing ? "Deixe em branco para manter a atual" : ""}
+                  required={!isEditing}
+                  {...register("senha")}
+                />
               </div>
             </div>
-
           </section>
 
-          {/* MEDIA SECTION */}
           <aside className={styles.mediaSection}>
-            <p className={styles.fotoLabel}>Foto do Voluntário</p>
-            <div className={styles.imagePreviewContainer}>
-              <label htmlFor="uploadFoto" className={styles.imageUploadLabel}>
-                <div className={styles.imagePreview}>
-                  {previewImage ? (
-                    <img src={previewImage} alt="Preview" />
-                  ) : (
-                    <div className={styles.placeholderImage}>
-                      <Upload size={64} color="#4B5563" />
-                    </div>
-                  )}
-                </div>
-              </label>
-              <input
-                type="file"
-                id="uploadFoto"
-                accept="image/*"
-                style={{ display: 'none' }}
-                {...fotoRegister}
-                onChange={(e) => {
-                  fotoRegister.onChange(e);
-                  const file = e.target.files[0];
-                  if (file) setPreviewImage(URL.createObjectURL(file));
-                }}
-              />
-            </div>
-
             <div className={styles.textareaGroup}>
               <label>Observações</label>
-              <textarea {...register('observacoes')} rows="22" />
+              <textarea {...register("observacoes")} rows="22" />
             </div>
           </aside>
         </div>
 
         <div className={styles.formActions}>
-          <button type="button" className={styles.backButton}>Voltar para a Lista</button>
-          <button type="submit" className={styles.saveButton}>Finalizar cadastro</button>
+          <button
+            type="button"
+            className={styles.backButton}
+            onClick={() => navigate("/listvoluntary")}
+          >
+            Voltar para a Lista
+          </button>
+          <button type="submit" className={styles.saveButton}>
+            {isEditing ? "Salvar Alterações" : "Finalizar cadastro"}
+          </button>
         </div>
       </form>
     </div>
