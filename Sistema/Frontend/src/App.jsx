@@ -46,6 +46,7 @@ const App = () => {
             <Route path="/cadadopter/:id" element={<CadAdopter />} />
             <Route path="/listadopter" element={<ListAdopter />} />
             <Route path="/cadvoluntary" element={<CadVoluntary />} />
+            <Route path="/cadvoluntary/:id" element={<CadVoluntary />} />
             <Route path="/listvoluntary" element={<ListVoluntary />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>

@@ -6,13 +6,22 @@
   min-height: 100vh;
   font-family: 'Segoe UI', sans-serif;
 }
-
+Pod
 .title {
   font-size: 20px;
   font-weight: 700;
   color: #2d3a2e;
   margin-bottom: 14px;
   margin-left: 0px;
+}
+
+.feedbackErro {
+  text-align: center;
+  color: #a32a2a;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 0;
+  white-space: pre-line;
 }
 
 /* Card */
