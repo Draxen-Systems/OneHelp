@@ -4,11 +4,10 @@ import { Pencil, Trash2, Plus, Search, UserCircle2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { TIPO_RESIDENCIA_CODE_TO_LABEL, API_BASE_URL } from "../constants";
 import { authFetch } from "../utils/auth";
+import { removerAcentos, formatarData, apenasNumeros, montarUrlFoto } from "../utils/format";
 import styles from "./ListAdopter.module.css";
 
 const API_URL = `${API_BASE_URL}/api/adotantes/`;
-
-const apenasNumeros = (str) => str ? str.replace(/\D/g, "") : "";
 
 const ListAdopter = () => {
   const [adotantes, setAdotantes] = useState([]);
@@ -56,21 +55,6 @@ const ListAdopter = () => {
     const timer = setTimeout(() => setSucesso(null), 3000);
     return () => clearTimeout(timer);
   }, [sucesso]);
-
-  const removerAcentos = (str) =>
-    str
-      ? str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-      : "";
-
-  const formatarData = (dataStr) => {
-    if (!dataStr) return "";
-    const partes = dataStr.split("-");
-    if (partes.length === 3) {
-      const [ano, mes, dia] = partes;
-      return `${dia}/${mes}/${ano}`;
-    }
-    return dataStr;
-  };
 
   // UFs extraídas dinamicamente dos dados carregados
   const ufsDisponiveis = [...new Set(
@@ -126,12 +110,6 @@ const ListAdopter = () => {
     } catch {
       setErro("Erro ao inativar cliente.");
     }
-  };
-
-  const montarUrlFoto = (foto) => {
-    if (!foto) return null;
-    if (foto.startsWith("http")) return foto;
-    return `${API_BASE_URL}${foto}`;
   };
 
   return (

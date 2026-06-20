@@ -21,8 +21,9 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from animais.views import EspecieViewSet, RacaViewSet, AnimalViewSet
 from adotantes.views import AdotanteViewSet, EnderecoViewSet
-from voluntarios.views import VoluntarioViewSet 
-from voluntarios.views import LoginVoluntarioView 
+from voluntarios.views import VoluntarioViewSet
+from voluntarios.views import LoginVoluntarioView
+from core.views import DeficienciaViewSet
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
@@ -35,6 +36,7 @@ router.register(r'animais', AnimalViewSet)
 router.register(r'adotantes', AdotanteViewSet)
 router.register(r'enderecos', EnderecoViewSet)
 router.register(r'voluntarios', VoluntarioViewSet)
+router.register(r'deficiencias', DeficienciaViewSet)
 
 
 urlpatterns = [

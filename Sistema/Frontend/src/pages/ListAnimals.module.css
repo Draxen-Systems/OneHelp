@@ -177,14 +177,35 @@
   display: block;
 }
 
-.badgeAdocao {
-  background-color: #ff8c61;
+.badgeAdocao,
+.badgeDisponivel,
+.badgeTratamento,
+.badgeAdotado,
+.badgeObito {
   color: white;
   padding: 0.4rem 0.85rem;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   display: inline-block;
+}
+
+/* Cores específicas por status do animal */
+.badgeAdocao,
+.badgeDisponivel {
+  background-color: #2e7d32;
+}
+
+.badgeTratamento {
+  background-color: #ff8c61;
+}
+
+.badgeAdotado {
+  background-color: #314d41;
+}
+
+.badgeObito {
+  background-color: #a32a2a;
 }
 
 /* --- Ações --- */
