@@ -16,7 +16,7 @@ const PerfilPage = () => {
       nome: "",
       email: "",
       telefone: "",
-      login: "" // O backend do seu sistema usa "login" e não "username"
+      login: "" 
     }
   });
 
@@ -26,7 +26,6 @@ const PerfilPage = () => {
         setLoading(true);
         setErro(null);
 
-        // 1. Pega os dados básicos que o auth.js salvou no login para descobrir o ID
         const usuarioLogado = getUsuario();
         
         if (!usuarioLogado || !usuarioLogado.id) {
@@ -36,7 +35,6 @@ const PerfilPage = () => {
         setUserId(usuarioLogado.id);
         const url_voluntario = `${API_BASE_URL}/api/voluntarios/${usuarioLogado.id}/`;
 
-        // 2. Busca os dados mais atualizados direto do banco
         const response = await authFetch(url_voluntario);
         
         if (!response.ok) {
@@ -46,7 +44,6 @@ const PerfilPage = () => {
         
         const dados = await response.json();
         
-        // 3. Preenche os campos da tela
         reset({
           nome: dados.nome || "",
           email: dados.email || "",
