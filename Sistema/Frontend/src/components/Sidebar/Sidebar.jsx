@@ -10,7 +10,6 @@ import Dashboardlogo from "../../assets/dashboard.png";
 import animaisLogo from "../../assets/paw.png";
 import clientesLogo from "../../assets/group.png";
 import funcionariosLogo from "../../assets/group (1).png"; 
-import novidadesLogo from "../../assets/news (2).png";
 import sairLogo from "../../assets/fire-exit.png";
 
 const Sidebar = () => {
@@ -94,7 +93,7 @@ const Sidebar = () => {
         {/* --- Animais (dropdown) --- */}
         <li className={styles.navItem}>
           <div
-            className={`${styles.navLink} ${checkActiveParent(["/animais", "/cadanimals", "/listanimals", "/raceanimals"])}`}
+            className={`${styles.navLink} ${checkActiveParent(["/animais", "/cadanimals", "/listanimals", "/cadrace", "/cadspecies"])}`}
             onClick={toggleAnimaisDropdown}
             style={{ cursor: "pointer" }}>
             <img src={animaisLogo} alt="Animais" className={styles.navIcon} />
@@ -126,9 +125,16 @@ const Sidebar = () => {
               </li>
               <li className={styles.dropdownItem}>
                 <Link
-                  to="/raceanimals"
-                  className={`${styles.dropdownLink} ${checkActive("/raceanimals")}`}>
-                  - Raça
+                  to="/cadrace"
+                  className={`${styles.dropdownLink} ${checkActive("/cadrace")}`}>
+                  - Cadastrar Raça
+                </Link>
+              </li>
+              <li className={styles.dropdownItem}>
+                <Link
+                  to="/cadspecies"
+                  className={`${styles.dropdownLink} ${checkActive("/cadspecies")}`}>
+                  - Cadastrar Espécie
                 </Link>
               </li>
             </ul>
@@ -209,19 +215,7 @@ const Sidebar = () => {
           )}
         </li>
 
-        {/* --- Novidades --- */}
-        <li className={styles.navItem}>
-          <Link
-            to="/novidades"
-            className={`${styles.navLink} ${checkActive("/novidades")}`}>
-            <img
-              src={novidadesLogo}
-              alt="Novidades"
-              className={styles.navIcon}
-            />
-            <span className={styles.navText}>Novidades</span>
-          </Link>
-        </li>
+        
       </ul>
 
       {/* --- Rodapé: logout --- */}
