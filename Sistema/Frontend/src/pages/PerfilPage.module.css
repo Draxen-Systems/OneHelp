@@ -1,0 +1,138 @@
+.containerPrincipal {
+  background-color: #fafaea;
+  padding: 30px 40px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.wrapperPerfil {
+  background-color: #ffffff;
+  border-radius: 25px;
+  padding: 40px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.titleWrapper h1 {
+  color: #314d41;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+}
+
+.formPerfil {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.avatarSection p {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.avatarCircle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #d6e3d1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gridCampos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 100%));
+  gap: 20px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldGroup label {
+  font-weight: 700;
+  color: #314d41;
+  font-size: 1rem;
+}
+
+.fieldGroup input {
+  padding: 12px 16px;
+  border: 1.5px solid #314d41;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #314d41;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+.fieldGroup input:focus {
+  outline: none;
+  border-color: #ff8c61;
+}
+
+.actionSection {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  background-color: #ff8c61;
+  color: white;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.saveButton:hover {
+  transform: scale(1.03);
+  background-color: rgb(255, 127, 76);
+}
+
+.feedback, .feedbackSucesso, .feedbackErro {
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.feedback {
+  color: #314d41;
+  background-color: #e2ece0;
+}
+
+.feedbackSucesso {
+  color: #2e7d32;
+  background-color: #e8f5e9;
+}
+
+.feedbackErro {
+  color: #a32a2a;
+  background-color: #ffebee;
+}

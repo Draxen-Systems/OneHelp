@@ -6,6 +6,7 @@ import "./App.css";
 // --- Telas Públicas ---
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import PerfilPage from "./pages/PerfilPage";
 
 // --- Animais ---
 import Cadanimals from "./pages/Cadanimals";
@@ -39,6 +40,7 @@ const App = () => {
         <Route path="/" element={<Login />} />
         <Route element={<PrivateRoute />}>
           <Route element={<DashboardLayout />}>
+            <Route path="/perfil" element={<PerfilPage />} /> 
             <Route path="/cadanimals" element={<Cadanimals />} />
             <Route path="/cadanimals/:id" element={<Cadanimals />} />
             <Route path="/listanimals" element={<Listanimals />} />
@@ -48,7 +50,6 @@ const App = () => {
             <Route path="/cadadopter/:id" element={<CadAdopter />} />
             <Route path="/listadopter" element={<ListAdopter />} />
             <Route path="/cadvoluntary" element={<CadVoluntary />} />
-            <Route path="/cadvoluntary/:id" element={<CadVoluntary />} />
             <Route path="/listvoluntary" element={<ListVoluntary />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>

@@ -6,6 +6,7 @@ import { logout } from "../../utils/auth";
 // --- Assets ---
 import LogoSystem from "../../assets/OneHelp_Branco.png";
 import LogoMini from "../../assets/OneHelp_Branco_Dog.png";
+import PerfilLogo from "../../assets/Perfil.png"; 
 import Dashboardlogo from "../../assets/dashboard.png";
 import animaisLogo from "../../assets/paw.png";
 import clientesLogo from "../../assets/group.png";
@@ -76,6 +77,21 @@ const Sidebar = () => {
 
       {/* --- Navegação principal --- */}
       <ul className={styles.navList}>
+        
+        {/* --- Perfil (Novo botão adicionado no topo) --- */}
+        <li className={styles.navItem}>
+          <Link
+            to="/perfil"
+            className={`${styles.navLink} ${checkActive("/perfil")}`}>
+            <img
+              src={PerfilLogo}
+              alt="Perfil"
+              className={styles.navIcon}
+            />
+            <span className={styles.navText}>Meu Perfil</span>
+          </Link>
+        </li>
+
         {/* --- Dashboard --- */}
         <li className={styles.navItem}>
           <Link
@@ -214,8 +230,6 @@ const Sidebar = () => {
             </ul>
           )}
         </li>
-
-        
       </ul>
 
       {/* --- Rodapé: logout --- */}
