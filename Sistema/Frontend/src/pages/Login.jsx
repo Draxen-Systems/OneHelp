@@ -1,19 +1,32 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiUser, FiLock, FiUnlock } from "react-icons/fi"; 
+import { FiUser, FiLock, FiUnlock } from "react-icons/fi";
 import styles from "./Login.module.css";
 import Logo from "../assets/OneHelp_Branco.png";
+import { login } from "../utils/auth";
 
 const Login = () => {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); 
-  
+  const [showPassword, setShowPassword] = useState(false);
+  const [erro, setErro] = useState(null);
+  const [enviando, setEnviando] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    navigate("/dashboard"); 
+    setErro(null);
+    setEnviando(true);
+
+    try {
+      await login(user, password);
+      navigate("/dashboard");
+    } catch (err) {
+      setErro(err.message);
+    } finally {
+      setEnviando(false);
+    }
   };
 
   return (
@@ -27,6 +40,8 @@ const Login = () => {
         <div className={styles.cardBody}>
           <h1 className={styles.title}>Bem-vindo ao OneHelp!</h1>
           <p className={styles.subtitle}>Acesso para gerenciar resgates e adoções</p>
+
+          {erro && <p className={styles.feedbackErro}>{erro}</p>}
 
           <form onSubmit={handleLogin} className={styles.form}>
             
@@ -63,8 +78,8 @@ const Login = () => {
               />
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Entrar
+            <button type="submit" className={styles.submitBtn} disabled={enviando}>
+              {enviando ? "Entrando..." : "Entrar"}
             </button>
           </form>
 

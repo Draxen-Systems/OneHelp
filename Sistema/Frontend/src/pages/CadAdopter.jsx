@@ -7,6 +7,7 @@ import {
   TIPO_RESIDENCIA_CODE_TO_LABEL,
   API_BASE_URL,
 } from "../constants";
+import { authFetch } from "../utils/auth";
 import styles from "./CadAdopter.module.css";
 
 const API_URL = `${API_BASE_URL}/api/adotantes/`;
@@ -46,7 +47,7 @@ const CadAdopter = () => {
 
     const carregarAdotante = async () => {
       try {
-        const response = await fetch(`${API_URL}${id}/`);
+        const response = await authFetch(`${API_URL}${id}/`);
         if (!response.ok) throw new Error("Erro ao carregar adotante.");
         const dados = await response.json();
 
@@ -174,7 +175,7 @@ const CadAdopter = () => {
       const url = isEditing ? `${API_URL}${id}/` : API_URL;
       const method = isEditing ? "PATCH" : "POST";
 
-      const response = await fetch(url, { method, body: formData });
+      const response = await authFetch(url, { method, body: formData });
       const resultado = await response.json();
 
       if (!response.ok) {
